@@ -50,14 +50,21 @@ transform: "translate(-50%, -50%) translateX(" + x + "px) translateY(" + y + "px
 Note: Only include rotateX/rotateY when the spec uses them. The parent div must have perspective set.
 
 EASING MAPPING
-"linear" → Easing.linear (default, no easing needed)
-"ease-in" → Easing.in(Easing.ease)
-"ease-out" → Easing.out(Easing.ease)
-"ease-in-out" → Easing.inOut(Easing.ease)
-Note: Since you can only use interpolate (no Easing import), map easings as follows:
-- "linear": no easing option needed
-- For "ease-in", "ease-out", "ease-in-out": you may omit them or use linear (Remotion interpolate does not natively support CSS easing names without the Easing import). Use linear to keep determinism.
-- "spring" and "bounce": use linear with manual keyframe subdivision if needed.
+The Easing module is already imported. Use it in the interpolate options object.
+
+"linear" → no easing option needed (default)
+"ease-in" → { easing: Easing.in(Easing.ease) }
+"ease-out" → { easing: Easing.out(Easing.ease) }
+"ease-in-out" → { easing: Easing.inOut(Easing.ease) }
+"spring" → { easing: Easing.out(Easing.exp) }
+"bounce" → { easing: Easing.bounce }
+
+CORRECT EXAMPLE with easing:
+const scale = interpolate(frame, [0, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.ease) });
+
+When the spec timeline entry has an "easing" field, apply the corresponding Easing function.
+If easing is "linear" or not specified, omit the easing option.
+Easing is deterministic — every frame produces the same value for the same input.
 
 NO LOOPS RULE
 You must never generate elements programmatically.

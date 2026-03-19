@@ -13,6 +13,7 @@ import { expandPrompt } from "./pipeline/promptExpander";
 import { generateSpec } from "./pipeline/specGenerator";
 import { generateAnimationCode, fixAnimationCode, wrapComponent } from "./pipeline/codeGenerator";
 import { renderAndUpload, typeCheck } from "./pipeline/renderer";
+import { validateAndFixSpec } from "./pipeline/specValidator";
 import { analyzeIntent, isMultiSceneResult } from "./pipeline/intentAnalyzer";
 import { resolveTemplate } from "./templates/resolver";
 import { renderTemplate, renderMultiScene } from "./pipeline/templateRenderer";
@@ -114,7 +115,7 @@ async function runPipeline(jobId: string): Promise<void> {
     await runLegacyPipeline(jobId, job.prompt);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    await failJob(jobId, 7, msg);
+    await failJob(jobId, 8, msg);
   }
 }
 
@@ -233,7 +234,7 @@ async function tryTemplatePipeline(jobId: string, prompt: string): Promise<boole
   }
 }
 
-/** The original legacy pipeline (expand → spec → code → render). */
+/** The original legacy pipeline (expand → spec → validate → polish → code → render). */
 async function runLegacyPipeline(jobId: string, prompt: string): Promise<void> {
   // Step 2: Expand simple prompt into detailed prompt
   await setStep(jobId, 2, "expanding");
@@ -252,27 +253,33 @@ async function runLegacyPipeline(jobId: string, prompt: string): Promise<void> {
     await failJob(jobId, 3, "Spec generation failed: " + specResult.errors.join("; "));
     return;
   }
-  const specText = JSON.stringify(specResult.spec, null, 2);
 
-  // Step 4: Spec ready
-  await updateJob(jobId, { spec_json: specResult.spec });
-  await setStep(jobId, 4, "spec_ready", { specJson: specResult.spec });
+  // Step 4: Validate & fix spec + polish motion (single LLM call)
+  await setStep(jobId, 4, "validating_spec");
+  const validated = await validateAndFixSpec(detailedPrompt, specResult.spec);
+  let finalSpec = validated.spec;
 
-  // Step 5: Generate animation code
-  await setStep(jobId, 5, "code_generating");
-  const { code, fullComponent: initialComponent, issues } = await generateAnimationCode(specText, specResult.spec);
+  const specText = JSON.stringify(finalSpec, null, 2);
+
+  // Step 5: Spec ready
+  await updateJob(jobId, { spec_json: finalSpec });
+  await setStep(jobId, 5, "spec_ready", { specJson: finalSpec });
+
+  // Step 6: Generate animation code
+  await setStep(jobId, 6, "code_generating");
+  const { code, fullComponent: initialComponent, issues } = await generateAnimationCode(specText, finalSpec);
   let fullComponent = initialComponent;
   if (issues.length > 0) console.warn("[queue] Static issues for", jobId, issues.join(", "));
 
-  // Step 6: Code ready — TypeScript check + fix loop
-  await setStep(jobId, 6, "code_ready");
-  const specObj = specResult.spec as Record<string, unknown>;
+  // Step 7: Code ready — TypeScript check + fix loop
+  await setStep(jobId, 7, "code_ready");
+  const specObj = finalSpec as Record<string, unknown>;
   const generatedPath = path.join(process.cwd(), "src", "GeneratedMotion.tsx");
   fs.writeFileSync(generatedPath, fullComponent, "utf-8");
   const tsResult = typeCheck();
   if (!tsResult.success && tsResult.error) {
     console.warn("[queue] TS errors for", jobId, "— retrying with error feedback");
-    const fixedCode = await fixAnimationCode(specText, specResult.spec, code, tsResult.error);
+    const fixedCode = await fixAnimationCode(specText, finalSpec, code, tsResult.error);
     const hasAssets = Array.isArray(specObj.objects) &&
       (specObj.objects as Record<string, unknown>[]).some(
         (o: Record<string, unknown>) => o.shape === "asset"
@@ -287,31 +294,31 @@ async function runLegacyPipeline(jobId: string, prompt: string): Promise<void> {
     }
   }
 
-  // Step 7: Render (with code-fix retry on failure)
-  await setStep(jobId, 7, "rendering");
+  // Step 8: Render (with code-fix retry on failure)
+  await setStep(jobId, 8, "rendering");
   try {
     const result = await renderAndUpload(
       jobId,
       fullComponent,
-      specResult.spec as Record<string, unknown>,
+      finalSpec as Record<string, unknown>,
       specText
     );
 
-    // Step 8: Done
+    // Step 9: Done
     await updateJob(jobId, {
       status: "done",
-      step: 8,
+      step: 9,
       video_r2_key: result.videoKey,
       code_r2_key: result.codeKey,
       spec_r2_key: result.specKey,
     });
-    emit(jobId, { jobId, step: 8, status: "done", label: STEP_LABELS[8], videoKey: result.videoKey });
+    emit(jobId, { jobId, step: 9, status: "done", label: STEP_LABELS[9], videoKey: result.videoKey });
   } catch (renderErr) {
     const renderMsg = renderErr instanceof Error ? renderErr.message : String(renderErr);
     console.warn("[queue] Render failed for", jobId, "— attempting code fix...");
-    console.warn("[queue] Render error:", renderMsg.slice(0, 500));
+    console.warn("[queue] Render error:", renderMsg.slice(0, 1000));
 
-    const fixedCode = await fixAnimationCode(specText, specResult.spec, code, renderMsg);
+    const fixedCode = await fixAnimationCode(specText, finalSpec, code, renderMsg);
     const hasAssets = Array.isArray(specObj.objects) &&
       (specObj.objects as Record<string, unknown>[]).some(
         (o: Record<string, unknown>) => o.shape === "asset"
@@ -322,18 +329,18 @@ async function runLegacyPipeline(jobId: string, prompt: string): Promise<void> {
     const result = await renderAndUpload(
       jobId,
       fullComponent,
-      specResult.spec as Record<string, unknown>,
+      finalSpec as Record<string, unknown>,
       specText
     );
 
     console.log("[queue] Render succeeded on retry for", jobId);
     await updateJob(jobId, {
       status: "done",
-      step: 8,
+      step: 9,
       video_r2_key: result.videoKey,
       code_r2_key: result.codeKey,
       spec_r2_key: result.specKey,
     });
-    emit(jobId, { jobId, step: 8, status: "done", label: STEP_LABELS[8], videoKey: result.videoKey });
+    emit(jobId, { jobId, step: 9, status: "done", label: STEP_LABELS[9], videoKey: result.videoKey });
   }
 }

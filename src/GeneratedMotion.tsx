@@ -1,4 +1,4 @@
-import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
+import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 
 export const GeneratedMotion = () => {
 const frame = useCurrentFrame();
@@ -6,67 +6,65 @@ const canvasW = 1920;
 const canvasH = 1080;
 const halfW = canvasW / 2;
 const halfH = canvasH / 2;
-const hackStart = 0;
-const hackEnd = 30;
-const hackOpacity = interpolate(frame, [hackStart, hackEnd], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-const hackGlowBlur = interpolate(frame, [hackStart, hackEnd], [0, 10], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-const hackGlowSpread = interpolate(frame, [hackStart, hackEnd], [0.5, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-const hackGlowColor = "#2196F3";
-const hackPosX = 0;
-const hackPosY = 0;
-const binStart = 30;
-const binEnd = 210;
-const binaryY = interpolate(frame, [binStart, binEnd], [-540, 540], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-const binaryPosX = 0;
-const binaryColor = "#2196F3";
+const posX_text_1 = 0;
+const posY_text_1 = 0;
+// Opacity timeline: 0s-1s -> frames 0-30
+const opacity_start = 0;
+const opacity_end = 30;
+const opacity = interpolate(frame, [opacity_start, opacity_end], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.ease) });
+// Scale timeline segments (frames)
+const s1_start = 30;
+const s1_end = 75;
+const s2_start = 75;
+const s2_end = 120;
+const s3_start = 120;
+const s3_end = 165;
+const s4_start = 165;
+const s4_end = 210;
+const s5_start = 210;
+const s5_end = 240;
+let scale_text_1 = 1;
+if (frame >= s1_start && frame < s1_end) {
+  scale_text_1 = interpolate(frame, [s1_start, s1_end], [1, 1.1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.inOut(Easing.ease) });
+} else if (frame >= s2_start && frame < s2_end) {
+  scale_text_1 = interpolate(frame, [s2_start, s2_end], [1.1, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.inOut(Easing.ease) });
+} else if (frame >= s3_start && frame < s3_end) {
+  scale_text_1 = interpolate(frame, [s3_start, s3_end], [1, 1.1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.inOut(Easing.ease) });
+} else if (frame >= s4_start && frame < s4_end) {
+  scale_text_1 = interpolate(frame, [s4_start, s4_end], [1.1, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.inOut(Easing.ease) });
+} else if (frame >= s5_start && frame <= s5_end) {
+  scale_text_1 = interpolate(frame, [s5_start, s5_end], [1, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+}
 return (
-  <AbsoluteFill style={{ backgroundColor: "#0F0F23", overflow: "hidden" }}>
+  <AbsoluteFill style={{ backgroundColor: "#FFFFFF", overflow: "hidden" }}>
     <div
       style={{
         position: "absolute",
         left: "50%",
         top: "50%",
-        transform: "translate(-50%, -50%) translateX(" + hackPosX + "px) translateY(" + hackPosY + "px)",
-        color: "#2196F3",
-        fontSize: 90 + "px",
-        fontWeight: "700",
-        fontFamily: "monospace",
+        transform:
+          "translate(-50%, -50%) translateX(" +
+          posX_text_1 +
+          "px) translateY(" +
+          posY_text_1 +
+          "px) scale(" +
+          scale_text_1 +
+          ")",
+        color: "#E53935",
+        fontSize: "48px",
+        fontWeight: "bold",
+        fontFamily: "Arial",
         whiteSpace: "nowrap",
         lineHeight: "1",
-        letterSpacing: 0 + "px",
+        letterSpacing: "0px",
         textAlign: "center",
         textTransform: "none",
         userSelect: "none",
         pointerEvents: "none",
-        opacity: hackOpacity,
-        boxShadow: "0px 0px " + hackGlowBlur + "px " + hackGlowSpread + "px " + hackGlowColor,
-        zIndex: 2
+        opacity: opacity
       }}
     >
-      HACK
-    </div>
-    <div
-      style={{
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%) translateX(" + binaryPosX + "px) translateY(" + binaryY + "px)",
-        color: binaryColor,
-        fontSize: 20 + "px",
-        fontWeight: "400",
-        fontFamily: "monospace",
-        whiteSpace: "nowrap",
-        lineHeight: "1",
-        letterSpacing: 0 + "px",
-        textAlign: "center",
-        textTransform: "none",
-        userSelect: "none",
-        pointerEvents: "none",
-        opacity: 1,
-        zIndex: 2
-      }}
-    >
-      0101010101010101
+      Next Level
     </div>
   </AbsoluteFill>
 );

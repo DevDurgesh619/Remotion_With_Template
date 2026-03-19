@@ -372,7 +372,7 @@ async function run() {
     console.log("  Rendering...");
     try {
       execSync(
-  `npx remotion render src/index.ts GeneratedMotion ${videoPath}`,
+  `npx remotion render src/index.ts GeneratedMotion "${videoPath}"`,
   {
     stdio: "inherit",
     env: {

@@ -97,7 +97,7 @@ function staticValidate(code: string): string[] {
 }
 
 function wrapComponent(body: string, hasAssets: boolean = false): string {
-  let imports = 'import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";\n';
+  let imports = 'import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";\n';
   if (hasAssets) {
     imports += 'import { Asset } from "./assets/Asset";\n';
   }

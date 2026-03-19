@@ -48,11 +48,11 @@ export async function renderTemplate(
   // Remotion render using TemplateScene composition
   try {
     execSync(
-      "npx remotion render src/index.ts TemplateScene " +
+      'npx remotion render src/index.ts TemplateScene "' +
         videoLocalPath +
-        " --props=" +
+        '" --props="' +
         propsFilePath +
-        " --concurrency=1 --gl=swangle --disable-web-security",
+        '" --concurrency=1 --gl=swangle --disable-web-security',
       {
         stdio: "pipe",
         cwd: PROJECT_ROOT,
@@ -114,11 +114,11 @@ export async function renderMultiScene(
 
   try {
     execSync(
-      "npx remotion render src/index.ts SceneSequence " +
+      'npx remotion render src/index.ts SceneSequence "' +
         videoLocalPath +
-        " --props=" +
+        '" --props="' +
         propsFilePath +
-        " --concurrency=1 --gl=swangle --disable-web-security",
+        '" --concurrency=1 --gl=swangle --disable-web-security',
       {
         stdio: "pipe",
         cwd: PROJECT_ROOT,

@@ -24,6 +24,7 @@ You may use only:
 - AbsoluteFill
 - useCurrentFrame
 - interpolate
+- Easing (from "remotion" — for easing curves in interpolate options)
 You must not use any other APIs or libraries (no framer-motion, no CSS keyframes, no requestAnimationFrame, no window/document, no random values, no React hooks other than useCurrentFrame).
 
 OUTPUT RULES

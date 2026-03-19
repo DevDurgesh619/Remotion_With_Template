@@ -44,7 +44,7 @@ function getPhaseStates(step: number, status: JobStatus, isTemplate: boolean): [
     if (isTemplate) {
       return [step <= 2 ? "failed" : "done", step > 2 ? "failed" : "pending"];
     }
-    return [step <= 6 ? "failed" : "done", step > 6 ? "failed" : "pending"];
+    return [step <= 7 ? "failed" : "done", step > 7 ? "failed" : "pending"];
   }
   if (status === "done") return ["done", "done"];
 
@@ -55,9 +55,9 @@ function getPhaseStates(step: number, status: JobStatus, isTemplate: boolean): [
     return [p1, p2];
   }
 
-  // Legacy: Phase 1: steps 1-6 (expand + spec + code), Phase 2: steps 7-8 (render + done)
-  const p1: PhaseState = step <= 6 ? "active" : "done";
-  const p2: PhaseState = step <= 6 ? "pending" : "active";
+  // Legacy: Phase 1: steps 1-7 (expand + spec + validate + code), Phase 2: steps 8-9 (render + done)
+  const p1: PhaseState = step <= 7 ? "active" : "done";
+  const p2: PhaseState = step <= 7 ? "pending" : "active";
   return [p1, p2];
 }
 

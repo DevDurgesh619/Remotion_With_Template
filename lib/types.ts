@@ -2,6 +2,7 @@ export type JobStatus =
   | "queued"
   | "expanding"
   | "spec_generating"
+  | "validating_spec"
   | "spec_ready"
   | "code_generating"
   | "code_ready"
@@ -45,11 +46,12 @@ export const STEP_LABELS: Record<number, string> = {
   1: "Prompt received",
   2: "Expanding prompt...",
   3: "Generating spec (GPT-4o)...",
-  4: "Spec ready",
-  5: "Generating animation code...",
-  6: "Code ready",
-  7: "Rendering video...",
-  8: "Video ready",
+  4: "Validating & polishing spec...",
+  5: "Spec ready",
+  6: "Generating animation code...",
+  7: "Code ready",
+  8: "Rendering video...",
+  9: "Video ready",
 };
 
 // Template pipeline step labels (used when template path is chosen)

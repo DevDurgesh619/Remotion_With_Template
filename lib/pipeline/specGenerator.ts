@@ -934,6 +934,7 @@ export async function generateSpec(promptText: string): Promise<SpecValidationRe
       const response = await client.responses.create({
         model: "gpt-4o",
         temperature: 0,
+        text: { format: { type: "json_object" } },
         input: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: promptText },
