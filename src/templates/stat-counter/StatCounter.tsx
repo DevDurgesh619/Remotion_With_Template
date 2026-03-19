@@ -4,8 +4,7 @@ import { Background } from "../../primitives/Background";
 import {
   phaseFrames,
   countUp,
-  fadeIn,
-  scalePop,
+  applyEntrance,
   choreograph,
 } from "../../primitives/animations";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
@@ -62,15 +61,16 @@ export const StatCounter: React.FC<StatCounterProps> = (props) => {
   let numberScale = 1;
 
   if (props.entranceAnimation === "count-up") {
+    // Custom count-up animation
     displayValue = countUp(frame, numberRange, 0, props.value);
     numberOpacity = interpolate(frame, [0, Math.round(numberRange.endFrame * 0.1)], [0, 1], CLAMP);
   } else if (props.entranceAnimation === "fade-in") {
-    const f = fadeIn(frame, { startFrame: 0, endFrame: Math.round(numberRange.endFrame * 0.4) });
-    numberOpacity = f.opacity;
+    const anim = applyEntrance(frame, "fade-in", { startFrame: 0, endFrame: Math.round(numberRange.endFrame * 0.4) });
+    numberOpacity = anim.opacity;
   } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, { startFrame: 0, endFrame: Math.round(numberRange.endFrame * 0.5) }, 1.15);
-    numberOpacity = p.opacity;
-    numberScale = p.scale;
+    const anim = applyEntrance(frame, "scale-pop", { startFrame: 0, endFrame: Math.round(numberRange.endFrame * 0.5) }, { overshootScale: 1.15 });
+    numberOpacity = anim.opacity;
+    numberScale = anim.scale;
   }
 
   // Label animation
@@ -98,7 +98,8 @@ export const StatCounter: React.FC<StatCounterProps> = (props) => {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale}) rotate(${secondaryM.rotation}deg)`,
+          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale * secondaryM.scaleX}, ${secondaryM.scale * secondaryM.scaleY}) rotate(${secondaryM.rotation}deg) skewX(${secondaryM.skewX}deg)`,
+          textShadow: secondaryM.shadowX !== 0 || secondaryM.shadowY !== 0 ? `${secondaryM.shadowX}px ${secondaryM.shadowY}px 4px rgba(0,0,0,0.5)` : undefined,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

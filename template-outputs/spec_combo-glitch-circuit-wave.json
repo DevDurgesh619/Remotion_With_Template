@@ -1,0 +1,53 @@
+{
+  "templateId": "timeline-scene",
+  "params": {
+    "title": "Security Timeline",
+    "milestones": [
+      {
+        "label": "2020 Breach"
+      },
+      {
+        "label": "2021 Patch"
+      },
+      {
+        "label": "2022 Audit"
+      },
+      {
+        "label": "2023 Certified"
+      },
+      {
+        "label": "2024 Zero-Day"
+      }
+    ],
+    "background": {
+      "type": "grain",
+      "baseColor": "#0A0A1A",
+      "grainOpacity": 0.1
+    },
+    "lineColor": "#FF00FF",
+    "dotColor": "#00D4FF",
+    "titleColor": "#00FF88",
+    "textColor": "#F8FAFC",
+    "descriptionColor": "#B0BEC5",
+    "markerStyle": "ring",
+    "entranceAnimation": "progressive",
+    "duration": 7,
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "fast",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "none",
+      "glow": "neon",
+      "blur": "subtle"
+    },
+    "pacingProfile": "energetic",
+    "secondaryMotion": {
+      "type": "glitch",
+      "intensity": "strong"
+    },
+    "decorativeTheme": "light-streaks"
+  }
+}

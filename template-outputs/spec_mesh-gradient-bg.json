@@ -1,0 +1,49 @@
+{
+  "templateId": "bullet-list",
+  "params": {
+    "title": "Success Formula",
+    "items": [
+      "Dream Big",
+      "Start Small",
+      "Act Now",
+      "Stay Consistent"
+    ],
+    "bulletStyle": "checkmark",
+    "titleColor": "#00D9FF",
+    "textColor": "#E2E8F0",
+    "bulletColor": "#FFD700",
+    "background": {
+      "type": "gradient",
+      "from": "#FFC0CB",
+      "to": "#8A2BE2",
+      "direction": "radial"
+    },
+    "entranceAnimation": "scale-pop",
+    "duration": 6,
+    "spacing": "normal",
+    "stylePreset": "gradient-dream",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "bold",
+      "letterSpacing": "wide",
+      "lineHeight": "normal"
+    },
+    "motionStyle": {
+      "easing": "elastic",
+      "speed": "medium",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "transition"
+    },
+    "pacingProfile": "energetic",
+    "secondaryMotion": {
+      "type": "float",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "gradient-orbs"
+  }
+}

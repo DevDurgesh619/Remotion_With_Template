@@ -1,0 +1,154 @@
+{
+  "legacy": true,
+  "spec": {
+    "scene": "network_uptime_data_callout",
+    "duration": 8,
+    "fps": 30,
+    "canvas": {
+      "w": 1920,
+      "h": 1080
+    },
+    "bg": "#0F0F23",
+    "objects": [
+      {
+        "id": "grid_background",
+        "shape": "line",
+        "size": [
+          1920,
+          1080
+        ],
+        "color": "#4CAF50",
+        "opacity": 0
+      },
+      {
+        "id": "uptime_text",
+        "shape": "text",
+        "text": "99.99%",
+        "fontSize": 96,
+        "fontWeight": "bold",
+        "fontFamily": "monospace",
+        "color": "#4CAF50",
+        "textAlign": "center",
+        "pos": [
+          0,
+          -50
+        ],
+        "opacity": 1
+      },
+      {
+        "id": "network_uptime_text",
+        "shape": "text",
+        "text": "Network Uptime",
+        "fontSize": 48,
+        "fontFamily": "monospace",
+        "color": "#4CAF50",
+        "textAlign": "center",
+        "pos": [
+          0,
+          50
+        ],
+        "opacity": 1
+      },
+      {
+        "id": "trend_text",
+        "shape": "text",
+        "text": "Trend: +0.03%",
+        "fontSize": 36,
+        "fontFamily": "monospace",
+        "color": "#4CAF50",
+        "textAlign": "center",
+        "pos": [
+          0,
+          100
+        ],
+        "opacity": 1
+      }
+    ],
+    "timeline": [
+      {
+        "target": "grid_background",
+        "time": [
+          0,
+          1
+        ],
+        "easing": "ease-out",
+        "opacity": [
+          0,
+          1
+        ]
+      },
+      {
+        "target": "uptime_text",
+        "time": [
+          1,
+          4
+        ],
+        "easing": "ease-out",
+        "chars": [
+          0,
+          6
+        ]
+      },
+      {
+        "target": "network_uptime_text",
+        "time": [
+          4,
+          5
+        ],
+        "easing": "ease-out",
+        "chars": [
+          0,
+          14
+        ]
+      },
+      {
+        "target": "trend_text",
+        "time": [
+          4,
+          5
+        ],
+        "easing": "ease-out",
+        "chars": [
+          0,
+          13
+        ]
+      },
+      {
+        "target": "uptime_text",
+        "time": [
+          7,
+          8
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      },
+      {
+        "target": "network_uptime_text",
+        "time": [
+          7,
+          8
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      },
+      {
+        "target": "trend_text",
+        "time": [
+          7,
+          8
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      }
+    ]
+  }
+}

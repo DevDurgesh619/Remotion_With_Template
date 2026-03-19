@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema } from "../types";
+import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema, PacingProfileSchema, SecondaryMotionSchema, DecorativeThemeSchema } from "../types";
 
 export const ProblemSolutionSchema = z.object({
   problemLabel: z.string().max(20).default("Problem"),
@@ -21,6 +21,9 @@ export const ProblemSolutionSchema = z.object({
   typography: TypographySchema.optional(),
   motionStyle: MotionStyleSchema.optional(),
   effects: EffectsSchema.optional(),
+  pacingProfile: PacingProfileSchema.optional(),
+  secondaryMotion: SecondaryMotionSchema.optional(),
+  decorativeTheme: DecorativeThemeSchema.optional(),
 });
 
 export type ProblemSolutionProps = z.infer<typeof ProblemSolutionSchema>;

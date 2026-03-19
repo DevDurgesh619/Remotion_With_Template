@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
 import { secToFrame, microFloat } from "../../primitives/animations";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -135,6 +136,12 @@ export const PieChart: React.FC<PieChartProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.titleColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{

@@ -4,11 +4,7 @@ import { Background } from "../../primitives/Background";
 import {
   phaseFrames,
   staggerDelay,
-  fadeIn,
-  slideUp,
-  scalePop,
-  blurReveal,
-  typewriter,
+  applyEntrance,
 } from "../../primitives/animations";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -20,37 +16,6 @@ import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import type { KineticTypographyProps } from "./schema";
 
 const CLAMP = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const };
-
-function applyAnimation(
-  frame: number,
-  preset: string,
-  startFrame: number,
-  endFrame: number,
-  textLength: number
-): { opacity: number; scale: number; y: number; blur: number; chars: number } {
-  const range = { startFrame, endFrame };
-  const result = { opacity: 1, scale: 1, y: 0, blur: 0, chars: textLength };
-
-  if (preset === "fade-in") {
-    result.opacity = fadeIn(frame, range).opacity;
-  } else if (preset === "slide-up") {
-    const s = slideUp(frame, range, 40);
-    result.opacity = s.opacity;
-    result.y = s.y;
-  } else if (preset === "scale-pop") {
-    const p = scalePop(frame, range, 1.12);
-    result.opacity = p.opacity;
-    result.scale = p.scale;
-  } else if (preset === "blur-reveal") {
-    const b = blurReveal(frame, range, 10);
-    result.opacity = b.opacity;
-    result.scale = b.scale;
-    result.blur = b.blur;
-  } else if (preset === "typewriter") {
-    result.chars = typewriter(frame, range, textLength);
-  }
-  return result;
-}
 
 export const KineticTypography: React.FC<KineticTypographyProps> = (props) => {
   const frame = useCurrentFrame();
@@ -114,7 +79,8 @@ export const KineticTypography: React.FC<KineticTypographyProps> = (props) => {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale}) rotate(${secondaryM.rotation}deg)`,
+          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale * secondaryM.scaleX}, ${secondaryM.scale * secondaryM.scaleY}) rotate(${secondaryM.rotation}deg) skewX(${secondaryM.skewX}deg)`,
+          textShadow: secondaryM.shadowX !== 0 || secondaryM.shadowY !== 0 ? `${secondaryM.shadowX}px ${secondaryM.shadowY}px 4px rgba(0,0,0,0.5)` : undefined,
           display: "flex",
           flexDirection: "column",
           alignItems: props.alignment === "center" ? "center" : props.alignment === "right" ? "flex-end" : "flex-start",
@@ -138,7 +104,7 @@ export const KineticTypography: React.FC<KineticTypographyProps> = (props) => {
               const range = isAllAtOnce
                 ? { startFrame: 0, endFrame: Math.round(entranceFrames * 0.5) }
                 : staggerDelay(i, items.length, entranceFrames);
-              const a = applyAnimation(frame, props.entranceAnimation, range.startFrame, range.endFrame, item.text.length);
+              const a = applyEntrance(frame, props.entranceAnimation, range, { offsetY: 40, overshootScale: 1.12, blurAmount: 10, textLength: item.text.length });
               const displayText = props.entranceAnimation === "typewriter" ? item.text.slice(0, a.chars) : item.text;
 
               return (
@@ -165,7 +131,7 @@ export const KineticTypography: React.FC<KineticTypographyProps> = (props) => {
             const range = isAllAtOnce
               ? { startFrame: 0, endFrame: Math.round(entranceFrames * 0.4) }
               : staggerDelay(i, items.length, entranceFrames);
-            const a = applyAnimation(frame, props.entranceAnimation, range.startFrame, range.endFrame, item.text.length);
+            const a = applyEntrance(frame, props.entranceAnimation, range, { offsetY: 40, overshootScale: 1.12, blurAmount: 10, textLength: item.text.length });
             const displayText = props.entranceAnimation === "typewriter" ? item.text.slice(0, a.chars) : item.text;
 
             return (

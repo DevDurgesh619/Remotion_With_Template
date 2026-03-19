@@ -1,0 +1,41 @@
+{
+  "templateId": "hero-text",
+  "params": {
+    "headline": "BREAKING NEWS",
+    "subheadline": "Live from the studio",
+    "headlineColor": "#F8FAFC",
+    "subheadlineColor": "#FEE2E2",
+    "accentColor": "#EF4444",
+    "background": {
+      "type": "gradient",
+      "from": "#FF0000",
+      "to": "#7F1D1D",
+      "direction": "to-bottom-right"
+    },
+    "entranceAnimation": "scale-pop",
+    "subheadlineAnimation": "scale-pop",
+    "duration": 4,
+    "style": "centered",
+    "decoration": "none",
+    "fontSize": "large",
+    "fontWeight": "bold",
+    "stylePreset": "cinematic-noir",
+    "motionStyle": {
+      "easing": "dramatic",
+      "speed": "fast",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "strong",
+      "glow": "subtle",
+      "blur": "transition"
+    },
+    "pacingProfile": "dramatic",
+    "secondaryMotion": {
+      "type": "shadow-dance",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "light-streaks"
+  }
+}

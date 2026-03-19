@@ -1,0 +1,45 @@
+{
+  "templateId": "hero-text",
+  "params": {
+    "headline": "Saving…",
+    "headlineColor": "#F8FAFC",
+    "subheadlineColor": "#B0BEC5",
+    "accentColor": "#F59E0B",
+    "background": {
+      "type": "gradient",
+      "from": "#0A0A1A",
+      "to": "#1A1A2E",
+      "direction": "to-bottom-right"
+    },
+    "entranceAnimation": "typewriter",
+    "subheadlineAnimation": "fade-in",
+    "duration": 4,
+    "style": "centered",
+    "decoration": "none",
+    "fontSize": "large",
+    "fontWeight": "bold",
+    "stylePreset": "tech-terminal",
+    "typography": {
+      "fontFamily": "space-grotesk",
+      "weight": "medium",
+      "letterSpacing": "normal",
+      "lineHeight": "normal"
+    },
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "medium",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "none"
+    },
+    "secondaryMotion": {
+      "type": "float",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "floating-particles"
+  }
+}

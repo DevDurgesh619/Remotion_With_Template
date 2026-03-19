@@ -1,0 +1,63 @@
+{
+  "templateId": "card-layout",
+  "params": {
+    "title": "Playful Features",
+    "cards": [
+      {
+        "heading": "Bounce",
+        "body": "Experience the joy of bouncing with every interaction.",
+        "iconId": "arrow-right"
+      },
+      {
+        "heading": "Stretch",
+        "body": "Feel the flexibility and adaptability in every move.",
+        "iconId": "arrow-right"
+      },
+      {
+        "heading": "Squash",
+        "body": "Enjoy the dynamic compression and expansion.",
+        "iconId": "arrow-right"
+      }
+    ],
+    "background": {
+      "type": "gradient",
+      "from": "#FF9A8B",
+      "to": "#FF6A88",
+      "direction": "radial"
+    },
+    "columns": 3,
+    "cardBackground": "#1A0A2E",
+    "titleColor": "#FF3E8A",
+    "headingColor": "#00D9FF",
+    "bodyColor": "#FFD700",
+    "iconColor": "#FF3E8A",
+    "entranceAnimation": "scale-pop",
+    "duration": 7,
+    "cardBorderRadius": 24,
+    "cardPadding": "spacious",
+    "stylePreset": "gradient-dream",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "bold",
+      "letterSpacing": "normal",
+      "lineHeight": "normal"
+    },
+    "motionStyle": {
+      "easing": "elastic",
+      "speed": "fast",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "none"
+    },
+    "pacingProfile": "energetic",
+    "secondaryMotion": {
+      "type": "stretch-squash",
+      "intensity": "strong"
+    },
+    "decorativeTheme": "gradient-orbs"
+  }
+}

@@ -28,12 +28,13 @@ async function loadPipeline() {
   const { resolveMultiScene } = await import("../lib/templates/multiSceneResolver");
   const { expandPrompt } = await import("../lib/pipeline/promptExpander");
   const { generateSpec } = await import("../lib/pipeline/specGenerator");
+  const { validateAndFixSpec } = await import("../lib/pipeline/specValidator");
   const { generateAnimationCode, fixAnimationCode, wrapComponent } = await import("../lib/pipeline/codeGenerator");
   const { typeCheck } = await import("../lib/pipeline/renderer");
   const { applyCreativeLayer } = await import("../lib/templates/creativeEnhancer");
   return {
     analyzeIntent, isMultiSceneResult, resolveTemplate, resolveMultiScene,
-    expandPrompt, generateSpec, generateAnimationCode, fixAnimationCode, wrapComponent, typeCheck,
+    expandPrompt, generateSpec, validateAndFixSpec, generateAnimationCode, fixAnimationCode, wrapComponent, typeCheck,
     applyCreativeLayer,
   };
 }
@@ -205,7 +206,7 @@ async function runLegacy(
   prompt: string,
   pipeline: Awaited<ReturnType<typeof loadPipeline>>,
 ): Promise<void> {
-  const { expandPrompt, generateSpec, generateAnimationCode, fixAnimationCode, wrapComponent, typeCheck } = pipeline;
+  const { expandPrompt, generateSpec, validateAndFixSpec, generateAnimationCode, fixAnimationCode, wrapComponent, typeCheck } = pipeline;
 
   // Step 1: Expand prompt
   console.log("  → [Legacy] Expanding prompt...");
@@ -224,19 +225,23 @@ async function runLegacy(
     console.error("  ✗ Spec generation failed:", specResult.errors.join("; "));
     return;
   }
-  const specText = JSON.stringify(specResult.spec, null, 2);
-  const specData = specResult.spec as Record<string, unknown>;
+  // Step 2.5: Validate & polish spec (matches web UI pipeline)
+  console.log("  → [Legacy] Validating & polishing spec...");
+  const validated = await validateAndFixSpec(detailedPrompt, specResult.spec);
+  const finalSpec = validated.spec;
+  const specText = JSON.stringify(finalSpec, null, 2);
+  const specData = finalSpec as Record<string, unknown>;
 
   // Save spec
   const outputDir = path.join(PROJECT_ROOT, "outputs");
   fs.mkdirSync(outputDir, { recursive: true });
   const specPath = path.join(outputDir, `spec_${jobId}.json`);
-  fs.writeFileSync(specPath, JSON.stringify({ legacy: true, spec: specResult.spec }, null, 2), "utf-8");
+  fs.writeFileSync(specPath, JSON.stringify({ legacy: true, spec: finalSpec }, null, 2), "utf-8");
   console.log(`  → Spec saved: ${specPath}`);
 
   // Step 3: Generate animation code
   console.log("  → [Legacy] Generating animation code...");
-  const { code, fullComponent: initialComponent, issues } = await generateAnimationCode(specText, specResult.spec);
+  const { code, fullComponent: initialComponent, issues } = await generateAnimationCode(specText, finalSpec);
   let fullComponent = initialComponent;
   if (issues.length > 0) console.warn("  ⚠ Static issues:", issues.join(", "));
 
@@ -246,13 +251,19 @@ async function runLegacy(
   const tsResult = typeCheck();
   if (!tsResult.success && tsResult.error) {
     console.log("  → [Legacy] Fixing TS errors...");
-    const fixedCode = await fixAnimationCode(specText, specResult.spec, code, tsResult.error);
+    const fixedCode = await fixAnimationCode(specText, finalSpec, code, tsResult.error);
     const hasAssets = Array.isArray(specData.objects) &&
       (specData.objects as Record<string, unknown>[]).some(
         (o: Record<string, unknown>) => o.shape === "asset"
       );
     fullComponent = wrapComponent(fixedCode, hasAssets);
     fs.writeFileSync(generatedPath, fullComponent, "utf-8");
+    const recheck = typeCheck();
+    if (!recheck.success) {
+      console.warn("  ⚠ TS still failing after retry:", recheck.error?.slice(0, 200));
+    } else {
+      console.log("  → [Legacy] TS fixed on retry");
+    }
   }
 
   // Step 5: Render video
@@ -264,7 +275,7 @@ async function runLegacy(
     // Retry with code fix on render failure
     console.log("  → [Legacy] Render failed, attempting code fix...");
     try {
-      const fixedCode = await fixAnimationCode(specText, specResult.spec, code, "Render failed");
+      const fixedCode = await fixAnimationCode(specText, finalSpec, code, "Render failed");
       const hasAssets = Array.isArray(specData.objects) &&
         (specData.objects as Record<string, unknown>[]).some(
           (o: Record<string, unknown>) => o.shape === "asset"

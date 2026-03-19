@@ -43,13 +43,14 @@ DESIGN PRINCIPLES:
    Keywords: "tech", "AI", "cyber", "digital", "code", "dev", "software", "hack", "data", "algorithm"
    Variant A (Matrix): gradient #0A0A1A → #0D2818, direction to-bottom, accent #00FF88
    Variant B (Neural): grain baseColor #0A0A1F, grainOpacity 0.08, accent #4FC3F7
-   Variant C (Hacker): gradient #000000 → #0A1A0A, direction to-bottom, accent #39FF14
+   Variant C (Hacker): grid lineColor #39FF14, baseColor #0A0A0A, cellSize 50, lineWidth 1, accent #39FF14
    Variant D (AI Glow): gradient #0F0520 → #1A0A3A, direction radial, accent #A855F7
+   Variant E (Terminal): grid lineColor #00FF88, baseColor #050A05, cellSize 40, lineWidth 1, accent #00FF88
 
    ── SCI-FI / FUTURISTIC / SPACE ──
    Keywords: "sci-fi", "space", "galaxy", "alien", "mars", "cosmic", "nebula", "interstellar", "future", "spacecraft"
    Variant A (Deep Space): gradient #020010 → #0A0030, direction radial, accent #7C3AED
-   Variant B (Nebula): gradient #1A0028 → #0A1A3A, direction to-bottom-right, accent #E879F9
+   Variant B (Nebula): mesh colors ["#7C3AED", "#E879F9", "#3B82F6", "#06B6D4"], baseColor #050510, accent #E879F9
    Variant C (Mars Colony): gradient #1A0A00 → #2A1500, direction to-bottom, accent #F97316
    Variant D (Starfield): grain baseColor #050515, grainOpacity 0.10, accent #60A5FA
 
@@ -59,11 +60,13 @@ DESIGN PRINCIPLES:
    Variant B (Electric Blue): gradient #000A1A → #001A3A, direction radial, accent #00D4FF
    Variant C (Toxic Green): gradient #0A0A00 → #1A2A00, direction to-bottom, accent #ADFF2F
    Variant D (Dual Neon): stripe baseColor #0A001A, stripeColor #FF006620, angle 35, density sparse, accent #FF0066
+   Variant E (Neon Grid): grid lineColor #FF00FF, baseColor #0A001A, cellSize 60, lineWidth 1, accent #00D4FF
 
    ── PREMIUM / LUXURY / ELEGANT ──
    Keywords: "premium", "luxury", "elegant", "exclusive", "gold", "high-end", "vip", "prestige", "opulent"
    Variant A (Black Gold): gradient #0A0A0A → #1A1508, direction to-bottom-right, accent #D4AF37
    Variant B (Champagne): grain baseColor #0F0A05, grainOpacity 0.06, accent #C9A96E
+   Variant E (Marble): marble baseColor #0F0F0F, veinColor #C9A96E, veinOpacity 0.25, accent #D4AF37
    Variant C (Platinum): gradient #0A0A10 → #1A1A28, direction to-bottom, accent #C0C0C0
    Variant D (Rose Gold): gradient #1A0A0A → #2A1515, direction to-bottom-right, accent #E8A598
 
@@ -77,9 +80,10 @@ DESIGN PRINCIPLES:
    ── CREATIVE / ART / PLAYFUL ──
    Keywords: "creative", "design", "art", "colorful", "fun", "playful", "party", "festival", "vibrant", "pop"
    Variant A (Purple Pop): gradient #1A0A2E → #2E1A47, direction to-bottom-right, accent #FF3E8A
-   Variant B (Candy): gradient #1A0A20 → #0A1A2A, direction radial, accent #00D9FF
+   Variant B (Candy): mesh colors ["#FF3E8A", "#00D9FF", "#FFD700", "#A855F7"], baseColor #0A0A1A, accent #00D9FF
    Variant C (Carnival): stripe baseColor #1A0A2E, stripeColor #FF3E8A15, angle 30, density normal, accent #FFD700
    Variant D (Graffiti): grain baseColor #1A1A0A, grainOpacity 0.10, accent #FF6B35
+   Variant E (Rainbow): conic colors ["#EF4444", "#F59E0B", "#22C55E", "#3B82F6", "#A855F7", "#EF4444"], centerX 50, centerY 50, accent #FFD700
 
    ── CORPORATE / PROFESSIONAL / B2B ──
    Keywords: "business", "corporate", "professional", "enterprise", "B2B", "meeting", "report", "strategy"
@@ -113,8 +117,8 @@ DESIGN PRINCIPLES:
    Keywords: "nature", "eco", "green", "organic", "earth", "sustainable", "forest", "plant", "garden"
    Variant A (Forest): gradient #0A1A0A → #152A15, direction to-bottom, accent #22C55E
    Variant B (Earth): grain baseColor #1A150A, grainOpacity 0.08, accent #A3E635
-   Variant C (Ocean Breeze): gradient #0A1A1A → #0A2A2A, direction to-bottom-right, accent #34D399
-   Variant D (Moss): gradient #0A150A → #1A2A10, direction radial, accent #86EFAC
+   Variant C (Ocean Breeze): wave baseFrom #0A1A1A, baseTo #0A2A2A, intensity 8, accent #34D399
+   Variant D (Moss): mesh colors ["#22C55E", "#86EFAC", "#A3E635", "#34D399"], baseColor #0A150A, accent #86EFAC
 
    ── URGENT / SALE / CTA ──
    Keywords: "urgent", "sale", "deal", "offer", "CTA", "limited", "now", "flash", "hurry", "discount"
@@ -133,9 +137,9 @@ DESIGN PRINCIPLES:
    ── VILLAGE / RUSTIC / VINTAGE ──
    Keywords: "village", "rustic", "vintage", "retro", "old", "classic", "antique", "nostalgic", "heritage", "traditional", "countryside"
    Variant A (Sepia): grain baseColor #1A1508, grainOpacity 0.10, accent #C8A96E
-   Variant B (Farmhouse): gradient #1A150A → #2A2015, direction to-bottom, accent #D4A574
-   Variant C (Parchment): gradient #151008 → #201A10, direction to-bottom-right, accent #B8860B
-   Variant D (Aged Wood): grain baseColor #12100A, grainOpacity 0.12, accent #8B7355
+   Variant B (Farmhouse): wood baseColor #1A150A, grainColor #2A2015, grainDensity medium, accent #D4A574
+   Variant C (Parchment): paper baseColor #1A1508, warmth 0.8, accent #B8860B
+   Variant D (Aged Wood): wood baseColor #12100A, grainColor #2A1A0A, grainDensity coarse, accent #8B7355
 
    ── OCEAN / MARINE / AQUATIC ──
    Keywords: "ocean", "sea", "marine", "underwater", "aqua", "deep sea", "coral", "wave", "surf"
@@ -143,12 +147,13 @@ DESIGN PRINCIPLES:
    Variant B (Coral Reef): gradient #0A1520 → #0A2030, direction radial, accent #FB923C
    Variant C (Arctic): gradient #0A1A2A → #152838, direction to-bottom-right, accent #67E8F9
    Variant D (Abyss): grain baseColor #000A15, grainOpacity 0.08, accent #22D3EE
+   Variant E (Ripple): wave baseFrom #000A1A, baseTo #001530, intensity 12, accent #0EA5E9
 
    ── RETRO / 80s / SYNTHWAVE ──
    Keywords: "retro", "80s", "synthwave", "vaporwave", "outrun", "arcade", "pixel", "nostalgic-tech"
-   Variant A (Sunset Grid): gradient #1A0030 → #300A40, direction to-bottom, accent #FF6EC7
+   Variant A (Sunset Grid): grid lineColor #FF6EC7, baseColor #1A0030, cellSize 80, lineWidth 1, accent #FF6EC7
    Variant B (VHS): grain baseColor #0A0020, grainOpacity 0.12, accent #00FFFF
-   Variant C (Arcade): gradient #0A001A → #1A0A30, direction to-bottom-right, accent #FFD700
+   Variant C (Arcade): conic colors ["#FF6EC7", "#00FFFF", "#FFD700", "#FF6EC7"], centerX 50, centerY 50, accent #FFD700
    Variant D (Chrome): stripe baseColor #1A0030, stripeColor #FF6EC720, angle 50, density sparse, accent #FF6EC7
 
    ── GOTHIC / DARK / HORROR ──
@@ -156,7 +161,7 @@ DESIGN PRINCIPLES:
    Variant A (Midnight): gradient #050005 → #100010, direction to-bottom, accent #9333EA
    Variant B (Blood Moon): gradient #0A0000 → #1A0508, direction radial, accent #DC2626
    Variant C (Fog): grain baseColor #080808, grainOpacity 0.10, accent #6B7280
-   Variant D (Grave): gradient #0A0A08 → #15150A, direction to-bottom-right, accent #A3A3A3
+   Variant D (Grave): concrete baseColor #0A0A08, roughness 0.7, accent #A3A3A3
 
    ── FOOD / CULINARY / RESTAURANT ──
    Keywords: "food", "restaurant", "chef", "culinary", "recipe", "cooking", "bakery", "cafe", "dining"
@@ -228,15 +233,42 @@ DESIGN PRINCIPLES:
    { "type": "gradient", "from": "#RRGGBB", "to": "#RRGGBB", "direction": "to-bottom" }
    { "type": "grain", "baseColor": "#RRGGBB", "grainOpacity": 0.08 }
    { "type": "stripe", "baseColor": "#RRGGBB", "stripeColor": "#RRGGBB", "angle": 45, "density": "normal" }
+   { "type": "conic", "colors": ["#RRGGBB", "#RRGGBB", ...], "centerX": 50, "centerY": 50 }
+   { "type": "mesh", "colors": ["#RRGGBB", "#RRGGBB", "#RRGGBB", "#RRGGBB"], "baseColor": "#RRGGBB" }
+   { "type": "grid", "lineColor": "#RRGGBB", "baseColor": "#RRGGBB", "cellSize": 60, "lineWidth": 1 }
+   { "type": "wave", "baseFrom": "#RRGGBB", "baseTo": "#RRGGBB", "intensity": 10 }
+   { "type": "marble", "baseColor": "#RRGGBB", "veinColor": "#RRGGBB", "veinOpacity": 0.3 }
+   { "type": "circuit", "lineColor": "#RRGGBB", "baseColor": "#RRGGBB", "dotColor": "#RRGGBB", "density": "normal" }
+   { "type": "paper", "baseColor": "#RRGGBB", "warmth": 0.5 }
+   { "type": "wood", "baseColor": "#RRGGBB", "grainColor": "#RRGGBB", "grainDensity": "medium" }
+   { "type": "concrete", "baseColor": "#RRGGBB", "roughness": 0.5 }
 
    Valid directions: "to-bottom", "to-right", "to-bottom-right", "to-top", "to-left", "radial"
    Valid densities: "sparse", "normal", "dense"
    grainOpacity range: 0.0 to 1.0
+   conic colors: 2-6 hex colors for angular sweep gradient
+   mesh colors: 2-4 hex colors for blended radial gradient orbs
+   grid cellSize: 10-200, lineWidth: 1-4
+   wave intensity: 1-30 (displacement amount)
+   marble veinOpacity: 0.1-0.5
+   circuit density: "sparse", "normal", "dense"
+   paper warmth: 0.0-1.0 (0=cool white, 1=warm cream)
+   wood grainDensity: "fine", "medium", "coarse"
+   concrete roughness: 0.0-1.0
 
    BACKGROUND DESIGN RULES:
    - Prefer gradient over solid for most moods
    - Use grain for textured/premium/organic feels (grainOpacity 0.05-0.12)
    - Use stripe for energetic/dynamic/playful feels (angle 30-60, density "sparse" or "normal")
+   - Use conic for psychedelic/rainbow/circular energy feels
+   - Use mesh for dreamy/organic/aurora/creative feels
+   - Use grid for tech/terminal/cyberpunk/wireframe feels (cellSize 40-80, lineWidth 1)
+   - Use wave for ocean/liquid/organic/ambient feels (intensity 5-15)
+   - Use marble for luxury/premium/architectural feels
+   - Use circuit for tech/hardware/engineering/PCB feels
+   - Use paper for handmade/craft/vintage/editorial feels
+   - Use wood for rustic/natural/warm/cozy feels
+   - Use concrete for urban/industrial/brutalist/street feels
    - Gradient directions: "to-bottom" = grounding, "radial" = spotlight, "to-bottom-right" = dynamic forward motion, "to-right" = horizontal energy
    - NEVER output { "type": "solid", "color": "#0A0A0A" } or "#111111" unless the user explicitly asked for plain/simple/black
 
@@ -251,12 +283,24 @@ DESIGN PRINCIPLES:
 4. ANIMATION MATCHING — animations should match mood:
    - "premium"/"elegant"/"cinematic" → "blur-reveal" or "fade-in"
    - "tech"/"startup"/"launch" → "scale-pop" or "slide-up"
-   - "fun"/"playful"/"creative" → "scale-pop"
+   - "fun"/"playful"/"creative" → "scale-pop" or "spin-in" or "drop-in"
    - "corporate"/"business" → "fade-in" or "slide-up"
-   - "urgent"/"sale" → "scale-pop"
+   - "urgent"/"sale" → "scale-pop" or "drop-in"
+   - "energetic"/"dynamic" → "spin-in" or "drop-in"
    - Avoid "none" unless user explicitly says "static" or "no animation"
+   - New animations available: "spin-in" (rotate while entering — great for playful/energetic), "drop-in" (fall from above with bounce — great for impactful/fun)
    - For stat-counter and data-callout: PREFER "count-up" unless user explicitly asked for a different animation. Count-up is the signature animation for number-centric templates.
    - For templates with template-specific animations: "grow" for bar-chart, "spin" for pie-chart, "count-up" for stat-counter/data-callout, "progressive" for timeline/process-steps
+
+   SECONDARY MOTION MATCHING — choose continuous motion that matches mood:
+   - "breathe" → premium, organic, calm
+   - "float" → dreamy, gentle, cosmic
+   - "drift" → cinematic, ambient
+   - "rotate" → gentle pendulum, editorial
+   - "skew" → edgy, punk, distorted, glitch
+   - "continuous-rotate" → energetic, hypnotic, loader-style
+   - "stretch-squash" → playful, bouncy, cartoon, rubber
+   - "shadow-dance" → mysterious, dramatic, horror, neon
 
 5. COMPOSITION CHOICES — use template-specific style/layout enums intelligently:
    - hero-text style: "centered" for impact, "split" for editorial, "left-aligned" for corporate
@@ -348,13 +392,32 @@ DESIGN PRINCIPLES:
     ALL sub-fields (type + intensity) are required when setting secondaryMotion.
     STRONGLY RECOMMENDED for any video > 3 seconds — prevents the "frozen" look.
 
-13. DECORATIVE THEME — Adds depth with background accent shapes:
-    - "geometric": hollow circles + rotated squares + thin lines. Use for tech, premium, corporate.
-    - "minimal-dots": scattered small dots at varying opacities. Use for modern, clean, minimal.
-    - "light-streaks": diagonal gradient sweeps. Use for cinematic, dramatic, epic.
-    - "corner-accents": L-shaped brackets in two corners. Use for editorial, corporate, formal.
-    - "none": no decorative elements. Use for brutalist, minimal, or when background is already complex (stripe/grain).
-    Set this to add visual depth. Works best with gradient or solid backgrounds. Avoid with stripe backgrounds.
+13. DECORATIVE THEME — Adds depth with background accent shapes. EVERY video should feel alive and dimensional:
+    - "soft-glow": Large blurred orbs creating bokeh/lens-flare depth. BEST FOR: cinematic, luxury, elegant, dramatic. The #1 choice for premium feel.
+    - "gradient-orbs": Very large diffused color washes for ambient atmosphere. BEST FOR: creative, dreamy, sci-fi, space themes.
+    - "floating-particles": Many tiny drifting dots with strong parallax depth. BEST FOR: tech, AI, data, modern, startup themes.
+    - "geometric": hollow circles + rotated squares + thin lines. BEST FOR: corporate, professional, editorial.
+    - "minimal-dots": scattered small dots at varying opacities. BEST FOR: clean, minimal, understated.
+    - "light-streaks": diagonal gradient sweeps. BEST FOR: neon, cyberpunk, sci-fi, epic.
+    - "crosshatch": opposing-angle thin lines creating mesh texture. BEST FOR: editorial, brutalist, raw.
+    - "corner-accents": L-shaped brackets in two corners. BEST FOR: formal, corporate reports.
+    - "none": ONLY use for brutalist/minimal styles, or when the template already has heavy visual complexity (e.g., map-highlight, bar-chart with many bars).
+
+    AMBIENT BACKGROUND RULE — MANDATORY:
+    Unless the prompt explicitly asks for "minimal", "simple", or "clean" styling, you MUST set a decorativeTheme.
+    Default mood mapping:
+    - Tech/AI/Digital → "floating-particles"
+    - Premium/Luxury/Cinematic → "soft-glow"
+    - Sci-fi/Space/Dreamy → "gradient-orbs"
+    - Startup/Launch/Growth → "floating-particles"
+    - Creative/Playful/Fun → "geometric" or "gradient-orbs"
+    - Corporate/Professional → "minimal-dots" or "soft-glow"
+    - Neon/Cyberpunk → "light-streaks"
+    - Editorial/Brutalist → "crosshatch"
+    - Minimal/Clean → "corner-accents" or "minimal-dots"
+    - Nature/Wellness → "soft-glow"
+    - Education/Learning → "minimal-dots"
+    - UNKNOWN/GENERIC mood → "soft-glow" (safe cinematic default)
 
 DIVERSITY ENFORCEMENT — THIS IS MANDATORY:
 - You MUST change the background from the input params. The intent analyzer sets bland defaults — your job is to replace them with mood-appropriate variants from the palettes above.
@@ -394,9 +457,9 @@ EXAMPLE — Input: hero-text template with bland defaults (solid #111111 bg, #FF
     "effects": { "shadow": "soft", "glow": "subtle", "blur": "transition" },
     "pacingProfile": "elegant",
     "secondaryMotion": { "type": "breathe", "intensity": "subtle" },
-    "decorativeTheme": "geometric"
+    "decorativeTheme": "soft-glow"
   },
-  "changes": ["Replaced solid black with grain texture for premium feel", "Changed #FFFFFF to cream #FFF8E1 for warmth", "Gold accent #D4AF37 for luxury mood", "blur-reveal animation for elegant slow entrance", "minimal-luxury preset with wide letter spacing", "Elegant pacing for leisurely reveal", "Subtle breathe motion keeps elements alive", "Geometric decoratives add depth"]
+  "changes": ["Replaced solid black with grain texture for premium feel", "Changed #FFFFFF to cream #FFF8E1 for warmth", "Gold accent #D4AF37 for luxury mood", "blur-reveal animation for elegant slow entrance", "minimal-luxury preset with wide letter spacing", "Elegant pacing for leisurely reveal", "Subtle breathe motion keeps elements alive", "Soft-glow decoratives add cinematic bokeh depth"]
 }
 
 EXAMPLE 2 — Input: stat-counter with bland defaults for a "neon cyberpunk gaming stats" prompt:
@@ -414,9 +477,9 @@ EXAMPLE 2 — Input: stat-counter with bland defaults for a "neon cyberpunk gami
     "effects": { "shadow": "none", "glow": "neon", "blur": "subtle" },
     "pacingProfile": "energetic",
     "secondaryMotion": { "type": "rotate", "intensity": "subtle" },
-    "decorativeTheme": "minimal-dots"
+    "decorativeTheme": "light-streaks"
   },
-  "changes": ["Hacker-green value color for cyberpunk", "Matrix-style dark gradient background", "Neon glow + blur effect for electric feel", "Hot pink accent for cyberpunk contrast", "Energetic pacing for fast reveals", "Subtle rotate keeps numbers alive", "Minimal dots add tech depth"]
+  "changes": ["Hacker-green value color for cyberpunk", "Matrix-style dark gradient background", "Neon glow + blur effect for electric feel", "Hot pink accent for cyberpunk contrast", "Energetic pacing for fast reveals", "Subtle rotate keeps numbers alive", "Light streaks add neon-tech depth"]
 }
 
 EXAMPLE 3 — Input: quote-highlight for a "dramatic movie trailer quote" prompt:
@@ -466,8 +529,8 @@ const SHARED_CREATIVE_FIELDS: Record<string, string> = {
   motionStyle: "{ easing: smooth|snappy|elastic|dramatic|playful, speed: slow|medium|fast, stagger: boolean, microMotion: boolean }",
   effects: "{ shadow: none|soft|strong, glow: none|subtle|neon, blur: none|subtle|transition }",
   pacingProfile: "dramatic|energetic|elegant|standard|suspense (controls entrance/main/exit phase timing ratios)",
-  secondaryMotion: "{ type: breathe|float|drift|rotate|none, intensity: subtle|medium|strong } (continuous motion during main phase)",
-  decorativeTheme: "geometric|minimal-dots|light-streaks|corner-accents|none (adds depth with decorative background elements)",
+  secondaryMotion: "{ type: breathe|float|drift|rotate|skew|continuous-rotate|stretch-squash|shadow-dance|wave|glitch|none, intensity: subtle|medium|strong } (continuous motion during main phase)",
+  decorativeTheme: "geometric|minimal-dots|light-streaks|corner-accents|soft-glow|floating-particles|gradient-orbs|crosshatch|none (adds depth with decorative background elements)",
 };
 
 const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
@@ -477,8 +540,8 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     subheadlineColor: "hex color #RRGGBB",
     accentColor: "hex color #RRGGBB (optional)",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
-    entranceAnimation: "fade-in|slide-up|scale-pop|blur-reveal|typewriter|none",
-    subheadlineAnimation: "fade-in|slide-up|scale-pop|blur-reveal|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|blur-reveal|typewriter|spin-in|drop-in|none",
+    subheadlineAnimation: "fade-in|slide-up|scale-pop|blur-reveal|spin-in|drop-in|none",
     style: "centered|left-aligned|split",
     decoration: "none|underline|highlight-box|accent-line",
     fontSize: "medium|large|xlarge",
@@ -520,7 +583,7 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     ...SHARED_CREATIVE_FIELDS,
     defaultColor: "hex color #RRGGBB",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
-    entranceAnimation: "fade-in|slide-up|scale-pop|blur-reveal|typewriter|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|blur-reveal|typewriter|spin-in|drop-in|none",
     staggerStyle: "line-by-line|word-by-word|all-at-once",
     alignment: "center|left|right",
     fontWeight: "normal|bold|black",
@@ -535,7 +598,7 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     iconSize: "40-300 (number in pixels)",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
     layout: "icon-top|icon-left|icon-right",
-    entranceAnimation: "fade-in|slide-up|scale-pop|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|spin-in|drop-in|none",
     accentColor: "hex color #RRGGBB (optional, icon background circle color)",
   },
   "comparison-layout": {
@@ -568,7 +631,7 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     iconColor: "hex color #RRGGBB",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
     columns: "1|2|3",
-    entranceAnimation: "fade-in|slide-up|scale-pop|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|spin-in|drop-in|none",
     cardBorderRadius: "0-32 (number, corner radius in pixels)",
     cardBorderColor: "hex color #RRGGBB (optional, top border color)",
     cardPadding: "compact|normal|spacious",
@@ -591,7 +654,7 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     bulletColor: "hex color #RRGGBB",
     bulletStyle: "dot|checkmark|number|dash|arrow",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
-    entranceAnimation: "fade-in|slide-up|scale-pop|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|spin-in|drop-in|none",
     spacing: "tight|normal|relaxed",
   },
   "quote-highlight": {
@@ -624,7 +687,7 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     accentColor: "hex color #RRGGBB",
     layout: "icon-left|icon-top|icon-right",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
-    entranceAnimation: "fade-in|slide-up|scale-pop|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|spin-in|drop-in|none",
     iconBackground: "hex color #RRGGBB (optional, icon background circle color)",
   },
   "split-screen": {
@@ -647,7 +710,7 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     textColor: "hex color #RRGGBB",
     labelColor: "hex color #RRGGBB",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
-    entranceAnimation: "fade-in|slide-up|scale-pop|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|spin-in|drop-in|none",
     transitionStyle: "fade-switch|slide-switch|side-by-side",
     accentColor: "hex color #RRGGBB (divider/separator accent)",
   },
@@ -658,7 +721,7 @@ const ENHANCEABLE_FIELDS: Record<string, Record<string, string>> = {
     textColor: "hex color #RRGGBB",
     background: "BackgroundSchema object (see BACKGROUND FORMAT above)",
     revealStyle: "wipe|fade|split",
-    entranceAnimation: "fade-in|slide-up|scale-pop|none",
+    entranceAnimation: "fade-in|slide-up|scale-pop|spin-in|drop-in|none",
     accentColor: "hex color #RRGGBB (transition/divider accent)",
   },
   "process-steps": {

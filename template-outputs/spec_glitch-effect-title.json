@@ -1,0 +1,44 @@
+{
+  "templateId": "section-title",
+  "params": {
+    "title": "SYSTEM ERROR 404",
+    "subtitle": "",
+    "titleColor": "#FFFFFF",
+    "subtitleColor": "#B0BEC5",
+    "accentColor": "#FF00FF",
+    "accentStyle": "none",
+    "alignment": "center",
+    "background": {
+      "type": "grain",
+      "baseColor": "#0A0A0A",
+      "grainOpacity": 0.1
+    },
+    "entranceAnimation": "scale-pop",
+    "duration": 4,
+    "fontSize": "large",
+    "stylePreset": "tech-terminal",
+    "typography": {
+      "fontFamily": "space-grotesk",
+      "weight": "bold",
+      "letterSpacing": "normal",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "fast",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "none",
+      "glow": "neon",
+      "blur": "subtle"
+    },
+    "pacingProfile": "energetic",
+    "secondaryMotion": {
+      "type": "glitch",
+      "intensity": "strong"
+    },
+    "decorativeTheme": "floating-particles"
+  }
+}

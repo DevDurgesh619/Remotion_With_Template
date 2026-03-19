@@ -30,11 +30,82 @@ export const GrainBgSchema = z.object({
   grainOpacity: z.number().min(0).max(1).default(0.08),
 });
 
+export const ConicBgSchema = z.object({
+  type: z.literal("conic"),
+  colors: z.array(z.string().regex(/^#[0-9A-Fa-f]{6}$/)).min(2).max(6),
+  centerX: z.number().min(0).max(100).default(50),
+  centerY: z.number().min(0).max(100).default(50),
+});
+
+export const MeshBgSchema = z.object({
+  type: z.literal("mesh"),
+  colors: z.array(z.string().regex(/^#[0-9A-Fa-f]{6}$/)).min(2).max(4),
+  baseColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+});
+
+export const GridBgSchema = z.object({
+  type: z.literal("grid"),
+  lineColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  baseColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  cellSize: z.number().min(10).max(200).default(60),
+  lineWidth: z.number().min(1).max(4).default(1),
+});
+
+export const WaveBgSchema = z.object({
+  type: z.literal("wave"),
+  baseFrom: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  baseTo: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  intensity: z.number().min(1).max(30).default(10),
+});
+
+export const MarbleBgSchema = z.object({
+  type: z.literal("marble"),
+  baseColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  veinColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  veinOpacity: z.number().min(0).max(1).default(0.3),
+});
+
+export const CircuitBgSchema = z.object({
+  type: z.literal("circuit"),
+  lineColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  baseColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  dotColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  density: z.enum(["sparse", "normal", "dense"]).default("normal"),
+});
+
+export const PaperBgSchema = z.object({
+  type: z.literal("paper"),
+  baseColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  warmth: z.number().min(0).max(1).default(0.5),
+});
+
+export const WoodBgSchema = z.object({
+  type: z.literal("wood"),
+  baseColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  grainColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  grainDensity: z.enum(["fine", "medium", "coarse"]).default("medium"),
+});
+
+export const ConcreteBgSchema = z.object({
+  type: z.literal("concrete"),
+  baseColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+  roughness: z.number().min(0).max(1).default(0.5),
+});
+
 export const BackgroundSchema = z.discriminatedUnion("type", [
   SolidBgSchema,
   GradientBgSchema,
   StripeBgSchema,
   GrainBgSchema,
+  ConicBgSchema,
+  MeshBgSchema,
+  GridBgSchema,
+  WaveBgSchema,
+  MarbleBgSchema,
+  CircuitBgSchema,
+  PaperBgSchema,
+  WoodBgSchema,
+  ConcreteBgSchema,
 ]);
 
 export type BackgroundConfig = z.infer<typeof BackgroundSchema>;
@@ -53,6 +124,9 @@ export const AnimationPresetSchema = z.enum([
   "clip-reveal",
   "spring",
   "camera-drift",
+  "spin-in",
+  "drop-in",
+  "3d-rotate",
   "none",
 ]);
 
@@ -113,7 +187,12 @@ export type PacingProfile = z.infer<typeof PacingProfileSchema>;
 // ── Secondary Motion ────────────────────────────────────────────────────
 
 export const SecondaryMotionSchema = z.object({
-  type: z.enum(["breathe", "float", "drift", "rotate", "none"]).default("none"),
+  type: z.enum([
+    "breathe", "float", "drift", "rotate",
+    "skew", "continuous-rotate", "stretch-squash", "shadow-dance",
+    "wave", "glitch",
+    "none",
+  ]).default("none"),
   intensity: z.enum(["subtle", "medium", "strong"]).default("subtle"),
 });
 export type SecondaryMotion = z.infer<typeof SecondaryMotionSchema>;
@@ -125,6 +204,10 @@ export const DecorativeThemeSchema = z.enum([
   "minimal-dots",
   "light-streaks",
   "corner-accents",
+  "soft-glow",
+  "floating-particles",
+  "gradient-orbs",
+  "crosshatch",
   "none",
 ]);
 export type DecorativeTheme = z.infer<typeof DecorativeThemeSchema>;

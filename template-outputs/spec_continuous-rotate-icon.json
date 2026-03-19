@@ -1,0 +1,45 @@
+{
+  "templateId": "icon-callout",
+  "params": {
+    "iconId": "gear",
+    "headline": "System Processing",
+    "description": "Analyzing your data in real-time",
+    "iconColor": "#00FF88",
+    "headlineColor": "#F8FAFC",
+    "descriptionColor": "#A3E635",
+    "accentColor": "#00FF88",
+    "iconSize": 120,
+    "background": {
+      "type": "grain",
+      "baseColor": "#0A0A1A",
+      "grainOpacity": 0.08
+    },
+    "layout": "icon-left",
+    "entranceAnimation": "fade-in",
+    "duration": 6,
+    "stylePreset": "tech-terminal",
+    "typography": {
+      "fontFamily": "space-grotesk",
+      "weight": "bold",
+      "letterSpacing": "normal",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "fast",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "none",
+      "glow": "neon",
+      "blur": "subtle"
+    },
+    "pacingProfile": "energetic",
+    "secondaryMotion": {
+      "type": "continuous-rotate",
+      "intensity": "strong"
+    },
+    "decorativeTheme": "floating-particles"
+  }
+}

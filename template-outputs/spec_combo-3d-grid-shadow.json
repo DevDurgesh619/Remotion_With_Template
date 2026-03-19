@@ -1,0 +1,447 @@
+{
+  "legacy": true,
+  "spec": {
+    "scene": "comparison_layout_old_vs_new",
+    "duration": 12,
+    "fps": 30,
+    "canvas": {
+      "w": 1920,
+      "h": 1080
+    },
+    "bg": "#1A1A2E",
+    "objects": [
+      {
+        "id": "grid_pattern",
+        "shape": "asset",
+        "assetId": "grid",
+        "size": [
+          1920,
+          1080
+        ],
+        "opacity": 0
+      },
+      {
+        "id": "old_way_1",
+        "shape": "text",
+        "text": "Old Way 1",
+        "fontSize": 48,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+        "color": "#E53935",
+        "pos": [
+          -480,
+          -150
+        ],
+        "shadow": {
+          "color": "#333333",
+          "offset": [
+            2,
+            2
+          ],
+          "blur": 4
+        }
+      },
+      {
+        "id": "old_way_2",
+        "shape": "text",
+        "text": "Old Way 2",
+        "fontSize": 48,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+        "color": "#E53935",
+        "pos": [
+          -480,
+          0
+        ],
+        "shadow": {
+          "color": "#333333",
+          "offset": [
+            2,
+            2
+          ],
+          "blur": 4
+        }
+      },
+      {
+        "id": "old_way_3",
+        "shape": "text",
+        "text": "Old Way 3",
+        "fontSize": 48,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+        "color": "#E53935",
+        "pos": [
+          -480,
+          150
+        ],
+        "shadow": {
+          "color": "#333333",
+          "offset": [
+            2,
+            2
+          ],
+          "blur": 4
+        }
+      },
+      {
+        "id": "new_way_1",
+        "shape": "text",
+        "text": "New Way 1",
+        "fontSize": 48,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+        "color": "#2196F3",
+        "pos": [
+          480,
+          -150
+        ],
+        "shadow": {
+          "color": "#333333",
+          "offset": [
+            2,
+            2
+          ],
+          "blur": 4
+        }
+      },
+      {
+        "id": "new_way_2",
+        "shape": "text",
+        "text": "New Way 2",
+        "fontSize": 48,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+        "color": "#2196F3",
+        "pos": [
+          480,
+          0
+        ],
+        "shadow": {
+          "color": "#333333",
+          "offset": [
+            2,
+            2
+          ],
+          "blur": 4
+        }
+      },
+      {
+        "id": "new_way_3",
+        "shape": "text",
+        "text": "New Way 3",
+        "fontSize": 48,
+        "fontWeight": "bold",
+        "fontFamily": "Arial",
+        "color": "#2196F3",
+        "pos": [
+          480,
+          150
+        ],
+        "shadow": {
+          "color": "#333333",
+          "offset": [
+            2,
+            2
+          ],
+          "blur": 4
+        }
+      }
+    ],
+    "timeline": [
+      {
+        "target": "grid_pattern",
+        "time": [
+          0,
+          1
+        ],
+        "easing": "ease-out",
+        "opacity": [
+          0,
+          1
+        ]
+      },
+      {
+        "target": "old_way_1",
+        "time": [
+          1,
+          3
+        ],
+        "easing": "ease-in-out",
+        "rotateY": [
+          -90,
+          0
+        ]
+      },
+      {
+        "target": "old_way_2",
+        "time": [
+          1.5,
+          3.5
+        ],
+        "easing": "ease-in-out",
+        "rotateY": [
+          -90,
+          0
+        ]
+      },
+      {
+        "target": "old_way_3",
+        "time": [
+          2,
+          4
+        ],
+        "easing": "ease-in-out",
+        "rotateY": [
+          -90,
+          0
+        ]
+      },
+      {
+        "target": "new_way_1",
+        "time": [
+          3,
+          5
+        ],
+        "easing": "ease-in-out",
+        "rotateY": [
+          90,
+          0
+        ]
+      },
+      {
+        "target": "new_way_2",
+        "time": [
+          3.5,
+          5.5
+        ],
+        "easing": "ease-in-out",
+        "rotateY": [
+          90,
+          0
+        ]
+      },
+      {
+        "target": "new_way_3",
+        "time": [
+          4,
+          6
+        ],
+        "easing": "ease-in-out",
+        "rotateY": [
+          90,
+          0
+        ]
+      },
+      {
+        "target": "old_way_1",
+        "time": [
+          5,
+          11
+        ],
+        "shadow": {
+          "from": [
+            2,
+            2,
+            4,
+            0,
+            "#333333"
+          ],
+          "to": [
+            3,
+            3,
+            5,
+            0,
+            "#333333"
+          ]
+        }
+      },
+      {
+        "target": "old_way_2",
+        "time": [
+          5,
+          11
+        ],
+        "shadow": {
+          "from": [
+            2,
+            2,
+            4,
+            0,
+            "#333333"
+          ],
+          "to": [
+            3,
+            3,
+            5,
+            0,
+            "#333333"
+          ]
+        }
+      },
+      {
+        "target": "old_way_3",
+        "time": [
+          5,
+          11
+        ],
+        "shadow": {
+          "from": [
+            2,
+            2,
+            4,
+            0,
+            "#333333"
+          ],
+          "to": [
+            3,
+            3,
+            5,
+            0,
+            "#333333"
+          ]
+        }
+      },
+      {
+        "target": "new_way_1",
+        "time": [
+          5,
+          11
+        ],
+        "shadow": {
+          "from": [
+            2,
+            2,
+            4,
+            0,
+            "#333333"
+          ],
+          "to": [
+            3,
+            3,
+            5,
+            0,
+            "#333333"
+          ]
+        }
+      },
+      {
+        "target": "new_way_2",
+        "time": [
+          5,
+          11
+        ],
+        "shadow": {
+          "from": [
+            2,
+            2,
+            4,
+            0,
+            "#333333"
+          ],
+          "to": [
+            3,
+            3,
+            5,
+            0,
+            "#333333"
+          ]
+        }
+      },
+      {
+        "target": "new_way_3",
+        "time": [
+          5,
+          11
+        ],
+        "shadow": {
+          "from": [
+            2,
+            2,
+            4,
+            0,
+            "#333333"
+          ],
+          "to": [
+            3,
+            3,
+            5,
+            0,
+            "#333333"
+          ]
+        }
+      },
+      {
+        "target": "old_way_1",
+        "time": [
+          11,
+          12
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      },
+      {
+        "target": "old_way_2",
+        "time": [
+          11,
+          12
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      },
+      {
+        "target": "old_way_3",
+        "time": [
+          11,
+          12
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      },
+      {
+        "target": "new_way_1",
+        "time": [
+          11,
+          12
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      },
+      {
+        "target": "new_way_2",
+        "time": [
+          11,
+          12
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      },
+      {
+        "target": "new_way_3",
+        "time": [
+          11,
+          12
+        ],
+        "easing": "ease-in",
+        "opacity": [
+          1,
+          0
+        ]
+      }
+    ]
+  }
+}

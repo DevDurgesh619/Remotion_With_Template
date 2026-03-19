@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
 import {
   secToFrame,
   fadeIn,
@@ -112,6 +113,12 @@ export const MaskedTextReveal: React.FC<MaskedTextRevealProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       {/* Main content container with exit animation */}
       <div

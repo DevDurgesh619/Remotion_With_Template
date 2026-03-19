@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, slideUp, scalePop, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, microFloat } from "../../primitives/animations";
 import { Asset } from "../../assets/Asset";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
@@ -62,22 +63,11 @@ function renderSequential(
   const isSlideSwitch = props.transitionStyle === "slide-switch";
 
   // Problem animation
-  let problemOpacity = 1;
-  let problemY = 0;
+  const problemAnim = applyEntrance(frame, props.entranceAnimation, { startFrame: 0, endFrame: problemEntrEnd }, { offsetY: 40, overshootScale: 1.1 });
+  let problemOpacity = problemAnim.opacity;
+  let problemY = problemAnim.y;
   let problemX = 0;
-  let problemScale = 1;
-
-  if (props.entranceAnimation === "fade-in") {
-    problemOpacity = fadeIn(frame, { startFrame: 0, endFrame: problemEntrEnd }).opacity;
-  } else if (props.entranceAnimation === "slide-up") {
-    const s = slideUp(frame, { startFrame: 0, endFrame: problemEntrEnd }, 40);
-    problemOpacity = s.opacity;
-    problemY = s.y;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, { startFrame: 0, endFrame: problemEntrEnd }, 1.1);
-    problemOpacity = p.opacity;
-    problemScale = p.scale;
-  }
+  let problemScale = problemAnim.scale;
 
   // Problem exit during transition
   if (frame >= transitionStart) {
@@ -100,6 +90,12 @@ function renderSequential(
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       {/* Problem */}
       <div
@@ -160,8 +156,10 @@ function renderSideBySide(
   let rightX = 0;
 
   if (props.entranceAnimation === "fade-in") {
-    leftOpacity = fadeIn(frame, { startFrame: 0, endFrame: entrEnd }).opacity;
-    rightOpacity = fadeIn(frame, { startFrame: Math.round(totalFrames * 0.08), endFrame: Math.round(totalFrames * 0.3) }).opacity;
+    const leftAnim = applyEntrance(frame, "fade-in", { startFrame: 0, endFrame: entrEnd });
+    leftOpacity = leftAnim.opacity;
+    const rightAnim = applyEntrance(frame, "fade-in", { startFrame: Math.round(totalFrames * 0.08), endFrame: Math.round(totalFrames * 0.3) });
+    rightOpacity = rightAnim.opacity;
   } else if (props.entranceAnimation === "slide-up" || props.entranceAnimation === "scale-pop") {
     leftX = interpolate(frame, [0, entrEnd], [-60, 0], CLAMP);
     leftOpacity = interpolate(frame, [0, entrEnd], [0, 1], CLAMP);
@@ -172,6 +170,12 @@ function renderSideBySide(
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{

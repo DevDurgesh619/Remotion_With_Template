@@ -1,0 +1,41 @@
+{
+  "templateId": "bullet-list",
+  "params": {
+    "title": "Our Menu",
+    "items": [
+      "Espresso",
+      "Cappuccino",
+      "Latte",
+      "Americano",
+      "Mocha"
+    ],
+    "bulletStyle": "checkmark",
+    "titleColor": "#FFF8E1",
+    "textColor": "#D2B48C",
+    "bulletColor": "#D97706",
+    "background": {
+      "type": "grain",
+      "baseColor": "#8B4513",
+      "grainOpacity": 0.1
+    },
+    "entranceAnimation": "slide-up",
+    "duration": 6,
+    "spacing": "relaxed",
+    "motionStyle": {
+      "easing": "smooth",
+      "speed": "medium",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "subtle"
+    },
+    "secondaryMotion": {
+      "type": "drift",
+      "intensity": "subtle"
+    },
+    "decorativeTheme": "soft-glow"
+  }
+}

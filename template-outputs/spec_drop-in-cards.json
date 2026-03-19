@@ -1,0 +1,67 @@
+{
+  "templateId": "card-layout",
+  "params": {
+    "title": "Our Features",
+    "cards": [
+      {
+        "heading": "Speed",
+        "body": "Optimized for fast performance",
+        "iconId": "lightning"
+      },
+      {
+        "heading": "Security",
+        "body": "Top-notch security protocols",
+        "iconId": "lock"
+      },
+      {
+        "heading": "Scale",
+        "body": "Easily scalable solutions",
+        "iconId": "chart-up"
+      },
+      {
+        "heading": "Support",
+        "body": "24/7 customer support",
+        "iconId": "users"
+      }
+    ],
+    "background": {
+      "type": "gradient",
+      "from": "#0D1B2A",
+      "to": "#1B2838",
+      "direction": "radial"
+    },
+    "columns": 2,
+    "cardBackground": "#162A36",
+    "titleColor": "#F8FAFC",
+    "headingColor": "#E2E8F0",
+    "bodyColor": "#94A3B8",
+    "iconColor": "#6366F1",
+    "entranceAnimation": "scale-pop",
+    "duration": 7,
+    "cardBorderRadius": 16,
+    "cardPadding": "normal",
+    "stylePreset": "tech-terminal",
+    "typography": {
+      "fontFamily": "space-grotesk",
+      "weight": "bold",
+      "letterSpacing": "normal",
+      "lineHeight": "normal"
+    },
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "fast",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "none"
+    },
+    "secondaryMotion": {
+      "type": "float",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "floating-particles"
+  }
+}

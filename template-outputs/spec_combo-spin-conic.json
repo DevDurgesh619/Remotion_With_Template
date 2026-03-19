@@ -1,0 +1,46 @@
+{
+  "templateId": "hero-text",
+  "params": {
+    "headline": "SPIN CYCLE",
+    "subheadline": "Round and round we go",
+    "headlineColor": "#FF6EC7",
+    "subheadlineColor": "#FFD700",
+    "background": {
+      "type": "gradient",
+      "from": "#FF00FF",
+      "to": "#00FFFF",
+      "direction": "radial"
+    },
+    "entranceAnimation": "scale-pop",
+    "subheadlineAnimation": "scale-pop",
+    "duration": 4,
+    "style": "centered",
+    "decoration": "none",
+    "fontSize": "large",
+    "fontWeight": "bold",
+    "stylePreset": "retro-arcade",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "bold",
+      "letterSpacing": "wide",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "fast",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "none",
+      "glow": "neon",
+      "blur": "none"
+    },
+    "pacingProfile": "energetic",
+    "secondaryMotion": {
+      "type": "continuous-rotate",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "light-streaks"
+  }
+}

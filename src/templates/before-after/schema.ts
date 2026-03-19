@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema } from "../types";
+import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema, PacingProfileSchema, SecondaryMotionSchema, DecorativeThemeSchema } from "../types";
 
 export const BeforeAfterSchema = z.object({
   beforeLabel: z.string().max(20).default("Before"),
@@ -20,6 +20,9 @@ export const BeforeAfterSchema = z.object({
   typography: TypographySchema.optional(),
   motionStyle: MotionStyleSchema.optional(),
   effects: EffectsSchema.optional(),
+  pacingProfile: PacingProfileSchema.optional(),
+  secondaryMotion: SecondaryMotionSchema.optional(),
+  decorativeTheme: DecorativeThemeSchema.optional(),
 });
 
 export type BeforeAfterProps = z.infer<typeof BeforeAfterSchema>;

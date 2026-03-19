@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, slideUp, staggerDelay, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, fadeIn, applyEntrance, staggerDelay, microFloat } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -59,6 +60,12 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.stepColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{
@@ -114,13 +121,12 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = (props) => {
             let stepY = 0;
 
             if (props.entranceAnimation === "progressive") {
+              // Custom progressive animation
               stepOpacity = fadeIn(frame, range).opacity;
-            } else if (props.entranceAnimation === "fade-in") {
-              stepOpacity = fadeIn(frame, range).opacity;
-            } else if (props.entranceAnimation === "slide-up") {
-              const s = slideUp(frame, range, 30);
-              stepOpacity = s.opacity;
-              stepY = s.y;
+            } else {
+              const anim = applyEntrance(frame, props.entranceAnimation, range, { offsetY: 30 });
+              stepOpacity = anim.opacity;
+              stepY = anim.y;
             }
 
             // Connector between steps (not after last)
@@ -224,7 +230,7 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = (props) => {
                         width: isPortrait ? "2px" : undefined,
                         flex: 1,
                         backgroundColor: props.stepColor,
-                        opacity: 0.5,
+                        opacity: 0.8,
                         borderStyle: props.connectorStyle === "dashed" ? "dashed" : "solid",
                         borderWidth: props.connectorStyle === "dashed" ? "1px 0 0 0" : undefined,
                         borderColor: props.connectorStyle === "dashed" ? props.stepColor : undefined,
@@ -235,7 +241,7 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = (props) => {
                         style={{
                           fontSize: "16px",
                           color: props.stepColor,
-                          opacity: 0.7,
+                          opacity: 1,
                           marginLeft: "-4px",
                         }}
                       >

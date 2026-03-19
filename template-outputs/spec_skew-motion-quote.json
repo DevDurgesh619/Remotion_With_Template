@@ -1,0 +1,44 @@
+{
+  "templateId": "quote-highlight",
+  "params": {
+    "quote": "Innovation distinguishes between a leader and a follower.",
+    "attribution": "Steve Jobs",
+    "quoteColor": "#F8FAFC",
+    "attributionColor": "#A855F7",
+    "accentColor": "#A855F7",
+    "quoteStyle": "italic",
+    "quoteMarkStyle": "large",
+    "background": {
+      "type": "gradient",
+      "from": "#050510",
+      "to": "#0A0A20",
+      "direction": "to-bottom"
+    },
+    "entranceAnimation": "slide-up",
+    "duration": 6,
+    "stylePreset": "editorial",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "bold",
+      "letterSpacing": "normal",
+      "lineHeight": "normal"
+    },
+    "motionStyle": {
+      "easing": "dramatic",
+      "speed": "medium",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "strong",
+      "glow": "none",
+      "blur": "subtle"
+    },
+    "pacingProfile": "dramatic",
+    "secondaryMotion": {
+      "type": "skew",
+      "intensity": "subtle"
+    },
+    "decorativeTheme": "crosshatch"
+  }
+}

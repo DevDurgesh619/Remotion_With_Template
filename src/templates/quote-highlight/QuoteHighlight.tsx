@@ -4,10 +4,7 @@ import { Background } from "../../primitives/Background";
 import {
   phaseFrames,
   fadeIn,
-  slideUp,
-  scalePop,
-  blurReveal,
-  typewriter,
+  applyEntrance,
   choreograph,
 } from "../../primitives/animations";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
@@ -61,29 +58,17 @@ export const QuoteHighlight: React.FC<QuoteHighlightProps> = (props) => {
   const markOpacity = fadeIn(frame, markRange).opacity;
 
   // Quote text animation
-  let quoteOpacity = 1;
-  let quoteY = 0;
-  let quoteScale = 1;
-  let quoteBlur = 0;
-  let visibleChars = props.quote.length;
+  const quoteAnim = applyEntrance(frame, props.entranceAnimation, quoteRange, { offsetY: 40, overshootScale: 1.1, textLength: props.quote.length });
+  let quoteOpacity = quoteAnim.opacity;
+  let quoteY = quoteAnim.y;
+  let quoteScale = quoteAnim.scale;
+  let quoteBlur = quoteAnim.blur;
+  let visibleChars = quoteAnim.chars;
 
-  if (props.entranceAnimation === "fade-in") {
-    quoteOpacity = fadeIn(frame, quoteRange).opacity;
-  } else if (props.entranceAnimation === "slide-up") {
-    const s = slideUp(frame, quoteRange, 40);
-    quoteOpacity = s.opacity;
-    quoteY = s.y;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, quoteRange, 1.1);
-    quoteOpacity = p.opacity;
-    quoteScale = p.scale;
-  } else if (props.entranceAnimation === "blur-reveal") {
-    const b = blurReveal(frame, quoteRange);
-    quoteOpacity = b.opacity;
-    quoteScale = b.scale;
-    quoteBlur = b.blur;
-  } else if (props.entranceAnimation === "typewriter") {
-    visibleChars = typewriter(frame, { startFrame: quoteRange.startFrame, endFrame: Math.round(phases.total * 0.6) }, props.quote.length);
+  if (props.entranceAnimation === "typewriter") {
+    // Re-apply typewriter with extended end frame
+    const extendedAnim = applyEntrance(frame, "typewriter", { startFrame: quoteRange.startFrame, endFrame: Math.round(phases.total * 0.6) }, { textLength: props.quote.length });
+    visibleChars = extendedAnim.chars;
     quoteOpacity = 1;
   }
 
@@ -122,7 +107,8 @@ export const QuoteHighlight: React.FC<QuoteHighlightProps> = (props) => {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale}) rotate(${secondaryM.rotation}deg)`,
+          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale * secondaryM.scaleX}, ${secondaryM.scale * secondaryM.scaleY}) rotate(${secondaryM.rotation}deg) skewX(${secondaryM.skewX}deg)`,
+          textShadow: secondaryM.shadowX !== 0 || secondaryM.shadowY !== 0 ? `${secondaryM.shadowX}px ${secondaryM.shadowY}px 4px rgba(0,0,0,0.5)` : undefined,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

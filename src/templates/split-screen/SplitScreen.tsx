@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, scalePop, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, microFloat } from "../../primitives/animations";
 import { Asset } from "../../assets/Asset";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
@@ -45,23 +46,15 @@ export const SplitScreen: React.FC<SplitScreenProps> = (props) => {
 
   // Panel animations
   const getPanelAnimation = (side: "left" | "right") => {
-    let opacity = 1;
-    let x = 0;
-    let scale = 1;
-
-    if (props.entranceAnimation === "fade-in") {
-      opacity = fadeIn(frame, { startFrame: 0, endFrame: entrEnd }).opacity;
-    } else if (props.entranceAnimation === "slide-in") {
+    if (props.entranceAnimation === "slide-in") {
+      // Custom slide-in: left panel from -80, right panel from +80
       const offset = side === "left" ? -80 : 80;
-      x = interpolate(frame, [0, entrEnd], [offset, 0], CLAMP);
-      opacity = interpolate(frame, [0, entrEnd], [0, 1], CLAMP);
-    } else if (props.entranceAnimation === "scale-pop") {
-      const p = scalePop(frame, { startFrame: 0, endFrame: entrEnd }, 1.1);
-      opacity = p.opacity;
-      scale = p.scale;
+      const x = interpolate(frame, [0, entrEnd], [offset, 0], CLAMP);
+      const opacity = interpolate(frame, [0, entrEnd], [0, 1], CLAMP);
+      return { opacity, x, scale: 1 };
     }
-
-    return { opacity, x, scale };
+    const anim = applyEntrance(frame, props.entranceAnimation, { startFrame: 0, endFrame: entrEnd }, { overshootScale: 1.1 });
+    return { opacity: anim.opacity, x: anim.x, scale: anim.scale };
   };
 
   const leftAnim = getPanelAnimation("left");
@@ -154,6 +147,12 @@ export const SplitScreen: React.FC<SplitScreenProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.leftAccentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{

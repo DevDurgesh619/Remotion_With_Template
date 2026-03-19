@@ -1,0 +1,43 @@
+{
+  "templateId": "quote-highlight",
+  "params": {
+    "quote": "Not all those who wander are lost.",
+    "attribution": "J.R.R. Tolkien",
+    "quoteColor": "#5A4A3B",
+    "attributionColor": "#8B7D6B",
+    "accentColor": "#C5B8A5",
+    "quoteStyle": "italic",
+    "quoteMarkStyle": "large",
+    "background": {
+      "type": "grain",
+      "baseColor": "#F5F5DC",
+      "grainOpacity": 0.1
+    },
+    "entranceAnimation": "typewriter",
+    "duration": 6,
+    "stylePreset": "editorial",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "regular",
+      "letterSpacing": "normal",
+      "lineHeight": "relaxed"
+    },
+    "motionStyle": {
+      "easing": "smooth",
+      "speed": "slow",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "none",
+      "blur": "subtle"
+    },
+    "pacingProfile": "elegant",
+    "secondaryMotion": {
+      "type": "drift",
+      "intensity": "subtle"
+    },
+    "decorativeTheme": "soft-glow"
+  }
+}

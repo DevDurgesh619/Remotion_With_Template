@@ -1,0 +1,44 @@
+{
+  "templateId": "section-title",
+  "params": {
+    "title": "RAW POWER",
+    "subtitle": "Unfiltered. Uncompromised.",
+    "titleColor": "#F8FAFC",
+    "subtitleColor": "#A3A3A3",
+    "accentColor": "#EF4444",
+    "accentStyle": "line-left",
+    "alignment": "center",
+    "background": {
+      "type": "grain",
+      "baseColor": "#4B5563",
+      "grainOpacity": 0.15
+    },
+    "entranceAnimation": "scale-pop",
+    "duration": 4,
+    "fontSize": "large",
+    "stylePreset": "brutalist",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "black",
+      "letterSpacing": "tight",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "fast",
+      "stagger": false,
+      "microMotion": false
+    },
+    "effects": {
+      "shadow": "strong",
+      "glow": "none",
+      "blur": "none"
+    },
+    "pacingProfile": "energetic",
+    "secondaryMotion": {
+      "type": "skew",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "crosshatch"
+  }
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
 import {
   secToFrame,
   fadeIn,
@@ -228,6 +229,12 @@ export const CinematicHero: React.FC<CinematicHeroProps> = (props) => {
       >
         <Background config={props.background} />
       </div>
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       {/* Accent geometric shapes with parallax */}
       <div style={{ position: "absolute", inset: 0, opacity: exit.opacity }}>

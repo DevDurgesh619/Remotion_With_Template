@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
 import {
   secToFrame,
   fadeIn,
@@ -223,6 +224,12 @@ export const ParallaxShowcase: React.FC<ParallaxShowcaseProps> = (props) => {
         }}
       >
         <Background config={props.background} />
+        <DecorativeLayer
+          theme={props.decorativeTheme ?? "none"}
+          accentColor={props.accentColor}
+          frame={frame}
+          totalFrames={totalFrames}
+        />
 
         {/* Large blurred decorative blob */}
         <div

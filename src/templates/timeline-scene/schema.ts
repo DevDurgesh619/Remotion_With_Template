@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema } from "../types";
+import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema, PacingProfileSchema, SecondaryMotionSchema, DecorativeThemeSchema } from "../types";
 
 const MilestoneSchema = z.object({
   label: z.string().min(1).max(40),
@@ -22,6 +22,9 @@ export const TimelineSceneSchema = z.object({
   typography: TypographySchema.optional(),
   motionStyle: MotionStyleSchema.optional(),
   effects: EffectsSchema.optional(),
+  pacingProfile: PacingProfileSchema.optional(),
+  secondaryMotion: SecondaryMotionSchema.optional(),
+  decorativeTheme: DecorativeThemeSchema.optional(),
 });
 
 export type TimelineSceneProps = z.infer<typeof TimelineSceneSchema>;

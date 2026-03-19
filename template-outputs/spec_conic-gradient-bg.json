@@ -1,0 +1,46 @@
+{
+  "templateId": "hero-text",
+  "params": {
+    "headline": "Color Wheel Studio",
+    "subheadline": "Where creativity meets design",
+    "headlineColor": "#F8FAFC",
+    "subheadlineColor": "#00D9FF",
+    "background": {
+      "type": "gradient",
+      "from": "#FF0000",
+      "to": "#FF00FF",
+      "direction": "radial"
+    },
+    "entranceAnimation": "fade-in",
+    "subheadlineAnimation": "fade-in",
+    "duration": 6,
+    "style": "centered",
+    "decoration": "none",
+    "fontSize": "large",
+    "fontWeight": "bold",
+    "stylePreset": "gradient-dream",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "bold",
+      "letterSpacing": "wide",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "elastic",
+      "speed": "medium",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "subtle"
+    },
+    "pacingProfile": "elegant",
+    "secondaryMotion": {
+      "type": "float",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "gradient-orbs"
+  }
+}

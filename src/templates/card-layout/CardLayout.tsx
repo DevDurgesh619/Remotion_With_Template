@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, staggerDelay, fadeIn, slideUp, scalePop, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, staggerDelay, applyEntrance, microFloat } from "../../primitives/animations";
 import { Asset } from "../../assets/Asset";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
@@ -59,6 +60,12 @@ export const CardLayout: React.FC<CardLayoutProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.iconColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{
@@ -108,21 +115,7 @@ export const CardLayout: React.FC<CardLayoutProps> = (props) => {
               endFrame: range.endFrame + cardsStart,
             };
 
-            let cardOpacity = 1;
-            let cardY = 0;
-            let cardScale = 1;
-
-            if (props.entranceAnimation === "fade-in") {
-              cardOpacity = fadeIn(frame, adjustedRange).opacity;
-            } else if (props.entranceAnimation === "slide-up") {
-              const s = slideUp(frame, adjustedRange, 40);
-              cardOpacity = s.opacity;
-              cardY = s.y;
-            } else if (props.entranceAnimation === "scale-pop") {
-              const p = scalePop(frame, adjustedRange, 1.08);
-              cardOpacity = p.opacity;
-              cardScale = p.scale;
-            }
+            const anim = applyEntrance(frame, props.entranceAnimation, adjustedRange, { offsetY: 40, overshootScale: 1.08 });
 
             const accent = card.accentColor ?? props.iconColor;
             const paddingMap = { compact: "20px 16px", normal: "32px 28px", spacious: "44px 36px" };
@@ -136,8 +129,8 @@ export const CardLayout: React.FC<CardLayoutProps> = (props) => {
                   borderRadius: props.cardBorderRadius + "px",
                   padding: paddingMap[props.cardPadding],
                   borderTop: "3px solid " + (props.cardBorderColor ?? accent),
-                  opacity: cardOpacity,
-                  transform: "translateY(" + cardY + "px) scale(" + cardScale + ")",
+                  opacity: anim.opacity,
+                  transform: "translateY(" + anim.y + "px) scale(" + anim.scale + ")",
                   display: "flex",
                   flexDirection: "column",
                   gap: "12px",

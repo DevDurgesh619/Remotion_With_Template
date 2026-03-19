@@ -1,0 +1,45 @@
+{
+  "templateId": "kinetic-typography",
+  "params": {
+    "lines": [
+      "Ride the Wave of Change"
+    ],
+    "defaultColor": "#F8FAFC",
+    "background": {
+      "type": "gradient",
+      "from": "#1E3A8A",
+      "to": "#3B82F6",
+      "direction": "to-bottom-right"
+    },
+    "fontSize": 72,
+    "fontWeight": "bold",
+    "alignment": "center",
+    "lineSpacing": 1.3,
+    "staggerStyle": "word-by-word",
+    "entranceAnimation": "slide-up",
+    "duration": 6,
+    "stylePreset": "gradient-dream",
+    "typography": {
+      "fontFamily": "space-grotesk",
+      "weight": "bold",
+      "letterSpacing": "wide",
+      "lineHeight": "relaxed"
+    },
+    "motionStyle": {
+      "easing": "elastic",
+      "speed": "medium",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "none"
+    },
+    "secondaryMotion": {
+      "type": "wave",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "gradient-orbs"
+  }
+}

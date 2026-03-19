@@ -3,15 +3,11 @@ import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
 import {
   phaseFrames,
-  fadeIn,
-  slideUp,
-  scalePop,
-  blurReveal,
-  typewriter,
   fadeOut,
   highlightReveal,
   underlineDraw,
   choreograph,
+  applyEntrance,
 } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
@@ -22,40 +18,6 @@ import { DecorativeLayer } from "../../primitives/DecorativeLayer";
 import type { HeroTextProps } from "./schema";
 
 const CLAMP = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const };
-
-function applyEntrance(
-  frame: number,
-  preset: string,
-  startFrame: number,
-  endFrame: number,
-  textLength: number
-): { opacity: number; scale: number; y: number; x: number; blur: number; chars: number } {
-  const range = { startFrame, endFrame };
-  const result = { opacity: 1, scale: 1, y: 0, x: 0, blur: 0, chars: textLength };
-
-  if (preset === "fade-in") {
-    const f = fadeIn(frame, range);
-    result.opacity = f.opacity;
-  } else if (preset === "slide-up") {
-    const s = slideUp(frame, range, 50);
-    result.opacity = s.opacity;
-    result.y = s.y;
-  } else if (preset === "scale-pop") {
-    const p = scalePop(frame, range, 1.15);
-    result.opacity = p.opacity;
-    result.scale = p.scale;
-  } else if (preset === "blur-reveal") {
-    const b = blurReveal(frame, range, 12);
-    result.opacity = b.opacity;
-    result.scale = b.scale;
-    result.blur = b.blur;
-  } else if (preset === "typewriter") {
-    result.chars = typewriter(frame, range, textLength);
-    result.opacity = 1;
-  }
-
-  return result;
-}
 
 export const HeroText: React.FC<HeroTextProps> = (props) => {
   const frame = useCurrentFrame();
@@ -87,11 +49,11 @@ export const HeroText: React.FC<HeroTextProps> = (props) => {
   const decoRange = seq.get("decoration")!;
 
   // ── Headline entrance ──────────────────────────────────────────────────
-  const h = applyEntrance(frame, props.entranceAnimation, headlineRange.startFrame, headlineRange.endFrame, props.headline.length);
+  const h = applyEntrance(frame, props.entranceAnimation, headlineRange, { textLength: props.headline.length, offsetY: 50, overshootScale: 1.15 });
 
   // ── Subheadline entrance ───────────────────────────────────────────────
   const sub = props.subheadline
-    ? applyEntrance(frame, props.subheadlineAnimation, subtitleRange.startFrame, subtitleRange.endFrame, props.subheadline.length)
+    ? applyEntrance(frame, props.subheadlineAnimation, subtitleRange, { textLength: props.subheadline.length, offsetY: 50, overshootScale: 1.15 })
     : null;
 
   // ── Exit fade ──────────────────────────────────────────────────────────
@@ -151,7 +113,8 @@ export const HeroText: React.FC<HeroTextProps> = (props) => {
           position: "absolute",
           left: containerLeft,
           top: "50%",
-          transform: `${containerTransform} translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale}) rotate(${secondaryM.rotation}deg)`,
+          transform: `${containerTransform} translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale * secondaryM.scaleX}, ${secondaryM.scale * secondaryM.scaleY}) rotate(${secondaryM.rotation}deg) skewX(${secondaryM.skewX}deg)`,
+          textShadow: secondaryM.shadowX !== 0 || secondaryM.shadowY !== 0 ? `${secondaryM.shadowX}px ${secondaryM.shadowY}px 4px rgba(0,0,0,0.5)` : undefined,
           maxWidth,
           textAlign: textAlign as React.CSSProperties["textAlign"],
           opacity: exitOpacity,

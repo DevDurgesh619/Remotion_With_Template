@@ -1,0 +1,55 @@
+{
+  "templateId": "process-steps",
+  "params": {
+    "title": "File Management Process",
+    "steps": [
+      {
+        "label": "Upload File"
+      },
+      {
+        "label": "Edit"
+      },
+      {
+        "label": "Download"
+      }
+    ],
+    "connectorStyle": "arrow",
+    "stepColor": "#94A3B8",
+    "titleColor": "#F8FAFC",
+    "textColor": "#CBD5E1",
+    "descriptionColor": "#B0BEC5",
+    "numberColor": "#F8FAFC",
+    "background": {
+      "type": "gradient",
+      "from": "#111111",
+      "to": "#1A1A1A",
+      "direction": "to-bottom"
+    },
+    "markerStyle": "circle",
+    "entranceAnimation": "fade-in",
+    "duration": 6,
+    "stylePreset": "modern-clean",
+    "typography": {
+      "fontFamily": "inter",
+      "weight": "medium",
+      "letterSpacing": "normal",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "smooth",
+      "speed": "medium",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "none",
+      "blur": "none"
+    },
+    "secondaryMotion": {
+      "type": "float",
+      "intensity": "subtle"
+    },
+    "decorativeTheme": "minimal-dots"
+  }
+}

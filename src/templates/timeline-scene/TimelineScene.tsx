@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, slideUp, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, microFloat } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -60,6 +61,12 @@ export const TimelineScene: React.FC<TimelineSceneProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.lineColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{
@@ -124,6 +131,7 @@ export const TimelineScene: React.FC<TimelineSceneProps> = (props) => {
             let textY = 0;
 
             if (props.entranceAnimation === "progressive") {
+              // Custom progressive animation
               dotOpacity = lineProgress >= milestoneProgress ? 1 : 0;
               const dotAppearFrame = Math.round(
                 timelineStart + ((timelineEnd - timelineStart) * i) / count
@@ -132,18 +140,13 @@ export const TimelineScene: React.FC<TimelineSceneProps> = (props) => {
               dotOpacity = interpolate(frame, [dotAppearFrame, dotEnd], [0, 1], CLAMP);
               textOpacity = dotOpacity;
               textY = interpolate(frame, [dotAppearFrame, dotEnd], [10, 0], CLAMP);
-            } else if (props.entranceAnimation === "fade-in") {
+            } else {
               const delay = Math.round(timelineStart + ((timelineEnd - timelineStart) * i) / count);
               const end = Math.min(delay + Math.round(totalFrames * 0.12), totalFrames);
-              dotOpacity = fadeIn(frame, { startFrame: delay, endFrame: end }).opacity;
-              textOpacity = dotOpacity;
-            } else if (props.entranceAnimation === "slide-up") {
-              const delay = Math.round(timelineStart + ((timelineEnd - timelineStart) * i) / count);
-              const end = Math.min(delay + Math.round(totalFrames * 0.12), totalFrames);
-              const s = slideUp(frame, { startFrame: delay, endFrame: end }, 30);
-              dotOpacity = s.opacity;
-              textOpacity = s.opacity;
-              textY = s.y;
+              const anim = applyEntrance(frame, props.entranceAnimation, { startFrame: delay, endFrame: end }, { offsetY: 30 });
+              dotOpacity = anim.opacity;
+              textOpacity = anim.opacity;
+              textY = anim.y;
             }
 
             const isEven = i % 2 === 0;

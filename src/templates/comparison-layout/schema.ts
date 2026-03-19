@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema } from "../types";
+import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema, PacingProfileSchema, SecondaryMotionSchema, DecorativeThemeSchema } from "../types";
 
 export const ComparisonLayoutSchema = z.object({
   leftTitle: z.string().min(1).max(40),
@@ -19,6 +19,9 @@ export const ComparisonLayoutSchema = z.object({
   typography: TypographySchema.optional(),
   motionStyle: MotionStyleSchema.optional(),
   effects: EffectsSchema.optional(),
+  pacingProfile: PacingProfileSchema.optional(),
+  secondaryMotion: SecondaryMotionSchema.optional(),
+  decorativeTheme: DecorativeThemeSchema.optional(),
 });
 
 export type ComparisonLayoutProps = z.infer<typeof ComparisonLayoutSchema>;

@@ -1,0 +1,48 @@
+{
+  "templateId": "split-screen",
+  "params": {
+    "left": {
+      "title": "Craftsmanship",
+      "body": "Artisan quality",
+      "iconId": "hand"
+    },
+    "right": {
+      "title": "Heritage",
+      "body": "100 years of tradition",
+      "iconId": "trophy"
+    },
+    "dividerStyle": "line",
+    "dividerColor": "#D4AF37",
+    "leftAccentColor": "#D4AF37",
+    "rightAccentColor": "#D4AF37",
+    "titleColor": "#FFF8E1",
+    "bodyColor": "#E2E8F0",
+    "iconColor": "#FFFFFF",
+    "background": {
+      "type": "grain",
+      "baseColor": "#F5F5F5",
+      "grainOpacity": 0.1
+    },
+    "balance": "equal",
+    "entranceAnimation": "fade-in",
+    "duration": 6,
+    "stylePreset": "minimal-luxury",
+    "typography": {
+      "fontFamily": "inter",
+      "weight": "medium",
+      "letterSpacing": "wide",
+      "lineHeight": "normal"
+    },
+    "motionStyle": {
+      "easing": "smooth",
+      "speed": "slow",
+      "stagger": false,
+      "microMotion": true
+    },
+    "secondaryMotion": {
+      "type": "shadow-dance",
+      "intensity": "subtle"
+    },
+    "decorativeTheme": "soft-glow"
+  }
+}

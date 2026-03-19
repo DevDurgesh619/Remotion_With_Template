@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema } from "../types";
+import { BackgroundSchema, StylePresetSchema, TypographySchema, MotionStyleSchema, EffectsSchema, PacingProfileSchema, SecondaryMotionSchema, DecorativeThemeSchema } from "../types";
 
 export const DynamicShowcaseSchema = z.object({
   iconId: z.string().min(1),
@@ -17,6 +17,9 @@ export const DynamicShowcaseSchema = z.object({
   typography: TypographySchema.optional(),
   motionStyle: MotionStyleSchema.optional(),
   effects: EffectsSchema.optional(),
+  pacingProfile: PacingProfileSchema.optional(),
+  secondaryMotion: SecondaryMotionSchema.optional(),
+  decorativeTheme: DecorativeThemeSchema.optional(),
 });
 
 export type DynamicShowcaseProps = z.infer<typeof DynamicShowcaseSchema>;

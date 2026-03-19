@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, scalePop, countUp, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, fadeIn, applyEntrance, countUp, microFloat } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -61,14 +62,13 @@ export const DataCallout: React.FC<DataCalloutProps> = (props) => {
   let valueScale = 1;
 
   if (props.entranceAnimation === "count-up") {
+    // Custom count-up animation
     displayValue = countUp(frame, { startFrame: 0, endFrame: valueEnd }, 0, props.value);
     valueOpacity = fadeIn(frame, { startFrame: 0, endFrame: Math.round(totalFrames * 0.08) }).opacity;
-  } else if (props.entranceAnimation === "fade-in") {
-    valueOpacity = fadeIn(frame, { startFrame: 0, endFrame: valueEnd }).opacity;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, { startFrame: 0, endFrame: valueEnd }, 1.15);
-    valueOpacity = p.opacity;
-    valueScale = p.scale;
+  } else {
+    const anim = applyEntrance(frame, props.entranceAnimation, { startFrame: 0, endFrame: valueEnd }, { overshootScale: 1.15 });
+    valueOpacity = anim.opacity;
+    valueScale = anim.scale;
   }
 
   // Label animation
@@ -103,6 +103,12 @@ export const DataCallout: React.FC<DataCalloutProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.valueColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{

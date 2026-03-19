@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
 import {
   secToFrame,
   fadeIn,
@@ -149,6 +150,12 @@ export const DynamicShowcase: React.FC<DynamicShowcaseProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       {/* Glow behind focal element */}
       <div

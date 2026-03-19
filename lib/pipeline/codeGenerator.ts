@@ -15,6 +15,7 @@ const { getDatavizRules } = _require("../../scripts/prompts/dataviz.js") as {
 const { getAssetRules } = _require("../../scripts/prompts/assets.js") as {
   getAssetRules: (spec: object) => string[];
 };
+const AMBIENT_RULES = _require("../../scripts/prompts/ambient.js") as string;
 
 const VALIDATION_CHECKLIST = `FINAL VALIDATION CHECKLIST
 Before producing your output, ensure:
@@ -33,7 +34,7 @@ Return only the JSX component body. No explanations, comments, or non-code text.
 MULTI-OBJECT RULE: Each object in the spec gets its own div with correct timing.`;
 
 function assembleSystemPrompt(specData: object): string {
-  const parts = [BASE_RULES, "", SHAPE_RULES, "", ANIMATION_RULES];
+  const parts = [BASE_RULES, "", SHAPE_RULES, "", ANIMATION_RULES, "", AMBIENT_RULES];
 
   const advancedRules = getAdvancedRules(specData);
   if (advancedRules.length > 0) {

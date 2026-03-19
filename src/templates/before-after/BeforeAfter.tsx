@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, slideUp, scalePop, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, microFloat } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -137,21 +138,10 @@ function renderOverlay(
   const isWipe = props.revealStyle === "wipe";
 
   // Before entrance
-  let beforeOpacity = 1;
-  let beforeY = 0;
-  let beforeScale = 1;
-
-  if (props.entranceAnimation === "fade-in") {
-    beforeOpacity = fadeIn(frame, { startFrame: 0, endFrame: entrEnd }).opacity;
-  } else if (props.entranceAnimation === "slide-up") {
-    const s = slideUp(frame, { startFrame: 0, endFrame: entrEnd }, 40);
-    beforeOpacity = s.opacity;
-    beforeY = s.y;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, { startFrame: 0, endFrame: entrEnd }, 1.1);
-    beforeOpacity = p.opacity;
-    beforeScale = p.scale;
-  }
+  const beforeAnim = applyEntrance(frame, props.entranceAnimation, { startFrame: 0, endFrame: entrEnd }, { offsetY: 40, overshootScale: 1.1 });
+  let beforeOpacity = beforeAnim.opacity;
+  let beforeY = beforeAnim.y;
+  let beforeScale = beforeAnim.scale;
 
   // Transition
   if (isWipe) {
@@ -161,6 +151,12 @@ function renderOverlay(
     return (
       <AbsoluteFill style={{ overflow: "hidden" }}>
         <Background config={props.background} />
+        <DecorativeLayer
+          theme={props.decorativeTheme ?? "none"}
+          accentColor={props.accentColor}
+          frame={frame}
+          totalFrames={totalFrames}
+        />
 
         {/* After state (underneath) */}
         <div
@@ -223,6 +219,12 @@ function renderOverlay(
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       {/* Before state */}
       <div
@@ -283,6 +285,12 @@ function renderSplit(
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{

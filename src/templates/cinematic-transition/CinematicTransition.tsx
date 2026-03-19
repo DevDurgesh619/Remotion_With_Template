@@ -1,10 +1,10 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
 import {
   secToFrame,
-  fadeIn,
-  scalePop,
+  applyEntrance,
   springIn,
   microFloat,
 } from "../../primitives/animations";
@@ -58,12 +58,10 @@ export const CinematicTransition: React.FC<CinematicTransitionProps> = (props) =
       const sp = springIn(frame, { startFrame: labelStart, endFrame: labelEnd }, 2);
       labelScale = sp.scale;
       labelOpacity = sp.opacity;
-    } else if (props.labelAnimation === "scale-pop") {
-      const sp = scalePop(frame, { startFrame: labelStart, endFrame: labelEnd }, 1.2);
-      labelScale = sp.scale;
-      labelOpacity = sp.opacity;
     } else {
-      labelOpacity = fadeIn(frame, { startFrame: labelStart, endFrame: labelEnd }).opacity;
+      const anim = applyEntrance(frame, props.labelAnimation ?? "fade-in", { startFrame: labelStart, endFrame: labelEnd }, { overshootScale: 1.2 });
+      labelScale = anim.scale;
+      labelOpacity = anim.opacity;
     }
     // Fade label out before wipe exits
     const labelFade = interpolate(frame, [holdEnd - 5, holdEnd], [1, 0], CLAMP);
@@ -176,6 +174,12 @@ export const CinematicTransition: React.FC<CinematicTransitionProps> = (props) =
     <AbsoluteFill style={{ overflow: "hidden" }}>
       {/* Background before */}
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.wipeColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       {/* Background after (revealed when wipe exits) */}
       {frame >= wipeOutStart && (

@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, slideUp, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, microFloat } from "../../primitives/animations";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
 import { resolveMotionStyle } from "../../primitives/useMotionStyle";
@@ -61,6 +62,12 @@ export const BarChart: React.FC<BarChartProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.titleColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{
@@ -154,13 +161,12 @@ export const BarChart: React.FC<BarChartProps> = (props) => {
             // Bar growth progress
             let progress = 0;
             if (props.entranceAnimation === "grow" || props.entranceAnimation === "none") {
+              // Custom grow animation
               progress =
                 props.entranceAnimation === "none"
                   ? 1
                   : interpolate(frame, [staggerDelay, barAnimEnd], [0, 1], CLAMP);
-            } else if (props.entranceAnimation === "fade-in") {
-              progress = 1;
-            } else if (props.entranceAnimation === "slide-up") {
+            } else {
               progress = 1;
             }
 
@@ -170,13 +176,10 @@ export const BarChart: React.FC<BarChartProps> = (props) => {
             // Fade/slide for non-grow animations
             let barOpacity = 1;
             let barTranslate = 0;
-            if (props.entranceAnimation === "fade-in") {
-              const f = fadeIn(frame, { startFrame: staggerDelay, endFrame: barAnimEnd });
-              barOpacity = f.opacity;
-            } else if (props.entranceAnimation === "slide-up") {
-              const s = slideUp(frame, { startFrame: staggerDelay, endFrame: barAnimEnd }, 40);
-              barOpacity = s.opacity;
-              barTranslate = s.y;
+            if (props.entranceAnimation !== "grow" && props.entranceAnimation !== "none") {
+              const anim = applyEntrance(frame, props.entranceAnimation, { startFrame: staggerDelay, endFrame: barAnimEnd }, { offsetY: 40 });
+              barOpacity = anim.opacity;
+              barTranslate = anim.y;
             }
 
             // Value display

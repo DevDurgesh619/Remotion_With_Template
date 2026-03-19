@@ -9,13 +9,14 @@ const CLAMP = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as 
 // ── Shape Definitions per Theme ──────────────────────────────────────────
 
 interface DecoShape {
-  type: "circle" | "line" | "dot" | "square" | "bracket" | "streak";
+  type: "circle" | "line" | "dot" | "square" | "bracket" | "streak" | "glow-orb";
   x: string;
   y: string;
   size: number;
   depth: number;       // 0=slow bg, 1=fast fg (parallax)
   rotation?: number;
   opacity?: number;
+  blur?: number;        // used by glow-orb for soft diffuse effect
 }
 
 const THEME_SHAPES: Record<Exclude<DecorativeTheme, "none">, DecoShape[]> = {
@@ -44,6 +45,42 @@ const THEME_SHAPES: Record<Exclude<DecorativeTheme, "none">, DecoShape[]> = {
   "corner-accents": [
     { type: "bracket", x: "4%", y: "4%", size: 40, depth: 0.1, rotation: 0, opacity: 0.2 },
     { type: "bracket", x: "88%", y: "82%", size: 40, depth: 0.1, rotation: 180, opacity: 0.2 },
+  ],
+  "soft-glow": [
+    { type: "glow-orb", x: "75%", y: "20%", size: 350, depth: 0.1, opacity: 0.07, blur: 60 },
+    { type: "glow-orb", x: "15%", y: "65%", size: 280, depth: 0.2, opacity: 0.05, blur: 50 },
+    { type: "glow-orb", x: "55%", y: "80%", size: 220, depth: 0.15, opacity: 0.06, blur: 45 },
+    { type: "glow-orb", x: "30%", y: "15%", size: 180, depth: 0.25, opacity: 0.04, blur: 40 },
+  ],
+  "floating-particles": [
+    { type: "dot", x: "10%", y: "15%", size: 5, depth: 0.15, opacity: 0.18 },
+    { type: "dot", x: "88%", y: "22%", size: 3, depth: 0.55, opacity: 0.12 },
+    { type: "dot", x: "72%", y: "70%", size: 7, depth: 0.1, opacity: 0.15 },
+    { type: "dot", x: "20%", y: "82%", size: 4, depth: 0.6, opacity: 0.1 },
+    { type: "dot", x: "45%", y: "8%", size: 6, depth: 0.35, opacity: 0.14 },
+    { type: "dot", x: "5%", y: "48%", size: 3, depth: 0.7, opacity: 0.08 },
+    { type: "dot", x: "92%", y: "55%", size: 5, depth: 0.25, opacity: 0.16 },
+    { type: "dot", x: "60%", y: "92%", size: 4, depth: 0.45, opacity: 0.1 },
+    { type: "dot", x: "35%", y: "38%", size: 3, depth: 0.5, opacity: 0.09 },
+    { type: "dot", x: "80%", y: "42%", size: 6, depth: 0.2, opacity: 0.13 },
+    { type: "dot", x: "15%", y: "30%", size: 4, depth: 0.65, opacity: 0.07 },
+    { type: "dot", x: "55%", y: "58%", size: 8, depth: 0.12, opacity: 0.11 },
+    { type: "dot", x: "40%", y: "75%", size: 3, depth: 0.4, opacity: 0.14 },
+    { type: "dot", x: "68%", y: "12%", size: 5, depth: 0.3, opacity: 0.12 },
+    { type: "dot", x: "25%", y: "55%", size: 4, depth: 0.5, opacity: 0.1 },
+  ],
+  "gradient-orbs": [
+    { type: "glow-orb", x: "70%", y: "25%", size: 450, depth: 0.08, opacity: 0.05, blur: 90 },
+    { type: "glow-orb", x: "20%", y: "70%", size: 400, depth: 0.12, opacity: 0.04, blur: 80 },
+    { type: "glow-orb", x: "50%", y: "45%", size: 350, depth: 0.18, opacity: 0.03, blur: 70 },
+  ],
+  "crosshatch": [
+    { type: "line", x: "10%", y: "20%", size: 200, depth: 0.15, rotation: 30, opacity: 0.08 },
+    { type: "line", x: "60%", y: "15%", size: 180, depth: 0.2, rotation: -30, opacity: 0.06 },
+    { type: "line", x: "30%", y: "70%", size: 220, depth: 0.1, rotation: 30, opacity: 0.07 },
+    { type: "line", x: "75%", y: "65%", size: 190, depth: 0.25, rotation: -30, opacity: 0.05 },
+    { type: "line", x: "45%", y: "40%", size: 160, depth: 0.3, rotation: 30, opacity: 0.06 },
+    { type: "line", x: "85%", y: "85%", size: 170, depth: 0.18, rotation: -30, opacity: 0.07 },
   ],
 };
 
@@ -131,6 +168,20 @@ function renderShape(
             width: s,
             height: 2,
             background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
+          }}
+        />
+      );
+    case "glow-orb":
+      return (
+        <div
+          key={`deco-${index}`}
+          style={{
+            ...baseStyle,
+            width: s,
+            height: s,
+            borderRadius: "50%",
+            backgroundColor: accentColor,
+            filter: `blur(${shape.blur ?? 50}px)`,
           }}
         />
       );

@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, slideUp, scalePop, staggerDelay, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, staggerDelay, microFloat } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -64,6 +65,12 @@ export const BulletList: React.FC<BulletListProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.bulletColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{
@@ -106,21 +113,7 @@ export const BulletList: React.FC<BulletListProps> = (props) => {
             endFrame: itemsStart + stagger.endFrame,
           };
 
-          let itemOpacity = 1;
-          let itemY = 0;
-          let itemScale = 1;
-
-          if (props.entranceAnimation === "fade-in") {
-            itemOpacity = fadeIn(frame, range).opacity;
-          } else if (props.entranceAnimation === "slide-up") {
-            const s = slideUp(frame, range, 30);
-            itemOpacity = s.opacity;
-            itemY = s.y;
-          } else if (props.entranceAnimation === "scale-pop") {
-            const p = scalePop(frame, range);
-            itemOpacity = p.opacity;
-            itemScale = p.scale;
-          }
+          const anim = applyEntrance(frame, props.entranceAnimation, range, { offsetY: 30 });
 
           return (
             <div
@@ -130,8 +123,8 @@ export const BulletList: React.FC<BulletListProps> = (props) => {
                 alignItems: "baseline",
                 gap: "16px",
                 padding: (props.spacing === "tight" ? 6 : props.spacing === "relaxed" ? 20 : 12) + "px 0",
-                opacity: itemOpacity,
-                transform: `translateY(${itemY}px) scale(${itemScale})`,
+                opacity: anim.opacity,
+                transform: `translateY(${anim.y}px) scale(${anim.scale})`,
               }}
             >
               <span

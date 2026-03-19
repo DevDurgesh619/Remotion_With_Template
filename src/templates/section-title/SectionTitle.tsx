@@ -3,10 +3,7 @@ import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
 import {
   phaseFrames,
-  fadeIn,
-  slideUp,
-  scalePop,
-  blurReveal,
+  applyEntrance,
   underlineDraw,
   highlightReveal,
   choreograph,
@@ -59,27 +56,11 @@ export const SectionTitle: React.FC<SectionTitleProps> = (props) => {
   const secondaryM = resolveSecondaryMotion(frame, phases.main, props.secondaryMotion);
 
   // Title entrance animation
-  let titleOpacity = 1;
-  let titleY = 0;
-  let titleScale = 1;
-  let titleBlur = 0;
-
-  if (props.entranceAnimation === "fade-in") {
-    titleOpacity = fadeIn(frame, titleRange).opacity;
-  } else if (props.entranceAnimation === "slide-up") {
-    const s = slideUp(frame, titleRange, 50);
-    titleOpacity = s.opacity;
-    titleY = s.y;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, titleRange, 1.15);
-    titleOpacity = p.opacity;
-    titleScale = p.scale;
-  } else if (props.entranceAnimation === "blur-reveal") {
-    const b = blurReveal(frame, titleRange);
-    titleOpacity = b.opacity;
-    titleScale = b.scale;
-    titleBlur = b.blur;
-  }
+  const titleAnim = applyEntrance(frame, props.entranceAnimation, titleRange, { offsetY: 50, overshootScale: 1.15 });
+  const titleOpacity = titleAnim.opacity;
+  const titleY = titleAnim.y;
+  const titleScale = titleAnim.scale;
+  const titleBlur = titleAnim.blur;
 
   // Subtitle animation
   let subtitleOpacity = 1;
@@ -116,7 +97,8 @@ export const SectionTitle: React.FC<SectionTitleProps> = (props) => {
           position: "absolute",
           left: "50%",
           top: "50%",
-          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale}) rotate(${secondaryM.rotation}deg)`,
+          transform: `translate(-50%, -50%) translateY(${secondaryM.y}px) translateX(${secondaryM.x}px) scale(${secondaryM.scale * secondaryM.scaleX}, ${secondaryM.scale * secondaryM.scaleY}) rotate(${secondaryM.rotation}deg) skewX(${secondaryM.skewX}deg)`,
+          textShadow: secondaryM.shadowX !== 0 || secondaryM.shadowY !== 0 ? `${secondaryM.shadowX}px ${secondaryM.shadowY}px 4px rgba(0,0,0,0.5)` : undefined,
           display: "flex",
           flexDirection: "column",
           alignItems: isLeft ? "flex-start" : "center",

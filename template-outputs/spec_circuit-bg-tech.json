@@ -1,0 +1,53 @@
+{
+  "templateId": "process-steps",
+  "params": {
+    "title": "Data Pipeline",
+    "steps": [
+      {
+        "label": "Input Data"
+      },
+      {
+        "label": "Process"
+      },
+      {
+        "label": "Validate"
+      },
+      {
+        "label": "Output"
+      }
+    ],
+    "connectorStyle": "arrow",
+    "stepColor": "#00FF88",
+    "titleColor": "#F0FFF4",
+    "textColor": "#C9F7F5",
+    "descriptionColor": "#B0BEC5",
+    "numberColor": "#E0F7EC",
+    "background": {
+      "type": "stripe",
+      "baseColor": "#064E3B",
+      "stripeColor": "#10B981",
+      "angle": 45,
+      "density": "normal"
+    },
+    "markerStyle": "circle",
+    "entranceAnimation": "progressive",
+    "duration": 7,
+    "stylePreset": "tech-terminal",
+    "motionStyle": {
+      "easing": "snappy",
+      "speed": "medium",
+      "stagger": true,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "neon",
+      "blur": "subtle"
+    },
+    "secondaryMotion": {
+      "type": "continuous-rotate",
+      "intensity": "subtle"
+    },
+    "decorativeTheme": "floating-particles"
+  }
+}

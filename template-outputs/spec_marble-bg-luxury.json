@@ -1,0 +1,46 @@
+{
+  "templateId": "hero-text",
+  "params": {
+    "headline": "EXCLUSIVE COLLECTION",
+    "subheadline": "Limited edition luxury pieces",
+    "headlineColor": "#FFF8E1",
+    "subheadlineColor": "#C9A96E",
+    "accentColor": "#D4AF37",
+    "background": {
+      "type": "grain",
+      "baseColor": "#F8F8F8",
+      "grainOpacity": 0.1
+    },
+    "entranceAnimation": "fade-in",
+    "subheadlineAnimation": "fade-in",
+    "duration": 6,
+    "style": "centered",
+    "decoration": "none",
+    "fontSize": "large",
+    "fontWeight": "bold",
+    "stylePreset": "minimal-luxury",
+    "typography": {
+      "fontFamily": "inter",
+      "weight": "regular",
+      "letterSpacing": "wide",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "smooth",
+      "speed": "slow",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "transition"
+    },
+    "pacingProfile": "elegant",
+    "secondaryMotion": {
+      "type": "breathe",
+      "intensity": "subtle"
+    },
+    "decorativeTheme": "soft-glow"
+  }
+}

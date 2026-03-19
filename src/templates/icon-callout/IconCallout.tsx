@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, slideUp, scalePop, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, microFloat } from "../../primitives/animations";
 import { Asset } from "../../assets/Asset";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
@@ -48,20 +49,7 @@ export const IconCallout: React.FC<IconCalloutProps> = (props) => {
   const floatY = motion.microMotionEnabled && isMainPhase ? microFloat(frame).y : 0;
 
   // Icon animation
-  let iconOpacity = 1;
-  let iconScale = 1;
-  let iconY = 0;
-  if (props.entranceAnimation === "fade-in") {
-    iconOpacity = fadeIn(frame, { startFrame: 0, endFrame: iconEnd }).opacity;
-  } else if (props.entranceAnimation === "slide-up") {
-    const s = slideUp(frame, { startFrame: 0, endFrame: iconEnd }, 40);
-    iconOpacity = s.opacity;
-    iconY = s.y;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, { startFrame: 0, endFrame: iconEnd }, 1.2);
-    iconOpacity = p.opacity;
-    iconScale = p.scale;
-  }
+  const iconAnim = applyEntrance(frame, props.entranceAnimation, { startFrame: 0, endFrame: iconEnd }, { offsetY: 40, overshootScale: 1.2 });
 
   // Text animation
   let textOpacity = 1;
@@ -85,6 +73,12 @@ export const IconCallout: React.FC<IconCalloutProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.accentColor ?? props.headlineColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{
@@ -105,8 +99,8 @@ export const IconCallout: React.FC<IconCalloutProps> = (props) => {
         {/* Icon */}
         <div
           style={{
-            opacity: iconOpacity,
-            transform: "translateY(" + iconY + "px) scale(" + iconScale + ")",
+            opacity: iconAnim.opacity,
+            transform: "translateY(" + iconAnim.y + "px) scale(" + iconAnim.scale + ")",
             flexShrink: 0,
             position: "relative",
             display: "flex",

@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, scalePop, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, applyEntrance, microFloat } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -45,34 +46,29 @@ export const ComparisonLayout: React.FC<ComparisonLayoutProps> = (props) => {
   const isMainPhase = frame >= itemsEnd && frame < exitStart;
   const floatY = motion.microMotionEnabled && isMainPhase ? microFloat(frame).y : 0;
 
-  // Left side entrance
+  // Side entrances
   let leftOpacity = 1;
   let leftX = 0;
   let leftScale = 1;
-  if (props.entranceAnimation === "slide-in") {
-    leftOpacity = interpolate(frame, [0, sidesEnd], [0, 1], CLAMP);
-    leftX = interpolate(frame, [0, sidesEnd], [-80, 0], CLAMP);
-  } else if (props.entranceAnimation === "fade-in") {
-    leftOpacity = fadeIn(frame, { startFrame: 0, endFrame: sidesEnd }).opacity;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, { startFrame: 0, endFrame: sidesEnd }, 1.1);
-    leftOpacity = p.opacity;
-    leftScale = p.scale;
-  }
-
-  // Right side entrance
   let rightOpacity = 1;
   let rightX = 0;
   let rightScale = 1;
+
   if (props.entranceAnimation === "slide-in") {
+    // Custom slide-in: left from -80, right from +80
+    leftOpacity = interpolate(frame, [0, sidesEnd], [0, 1], CLAMP);
+    leftX = interpolate(frame, [0, sidesEnd], [-80, 0], CLAMP);
     rightOpacity = interpolate(frame, [0, sidesEnd], [0, 1], CLAMP);
     rightX = interpolate(frame, [0, sidesEnd], [80, 0], CLAMP);
-  } else if (props.entranceAnimation === "fade-in") {
-    rightOpacity = fadeIn(frame, { startFrame: 0, endFrame: sidesEnd }).opacity;
-  } else if (props.entranceAnimation === "scale-pop") {
-    const p = scalePop(frame, { startFrame: 0, endFrame: sidesEnd }, 1.1);
-    rightOpacity = p.opacity;
-    rightScale = p.scale;
+  } else {
+    const leftAnim = applyEntrance(frame, props.entranceAnimation, { startFrame: 0, endFrame: sidesEnd }, { overshootScale: 1.1 });
+    leftOpacity = leftAnim.opacity;
+    leftX = leftAnim.x;
+    leftScale = leftAnim.scale;
+    const rightAnim = applyEntrance(frame, props.entranceAnimation, { startFrame: 0, endFrame: sidesEnd }, { overshootScale: 1.1 });
+    rightOpacity = rightAnim.opacity;
+    rightX = rightAnim.x;
+    rightScale = rightAnim.scale;
   }
 
   // VS badge
@@ -84,6 +80,12 @@ export const ComparisonLayout: React.FC<ComparisonLayoutProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.leftColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{

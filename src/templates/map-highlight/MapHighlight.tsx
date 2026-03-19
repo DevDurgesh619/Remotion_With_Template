@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, interpolate } from "remotion";
 import { Background } from "../../primitives/Background";
-import { secToFrame, fadeIn, scalePop, staggerDelay, microFloat } from "../../primitives/animations";
+import { DecorativeLayer } from "../../primitives/DecorativeLayer";
+import { secToFrame, fadeIn, applyEntrance, staggerDelay, microFloat } from "../../primitives/animations";
 import { useResponsiveConfig } from "../../primitives/useResponsiveConfig";
 import { resolveStylePreset } from "../../primitives/useStylePreset";
 import { resolveTypography } from "../../primitives/useTypography";
@@ -110,6 +111,12 @@ export const MapHighlight: React.FC<MapHighlightProps> = (props) => {
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Background config={props.background} />
+      <DecorativeLayer
+        theme={props.decorativeTheme ?? "none"}
+        accentColor={props.markerColor}
+        frame={frame}
+        totalFrames={totalFrames}
+      />
 
       <div
         style={{
@@ -243,14 +250,13 @@ export const MapHighlight: React.FC<MapHighlightProps> = (props) => {
             let markerScale = 1;
 
             if (props.entranceAnimation === "progressive") {
+              // Custom progressive animation
               markerOpacity = fadeIn(frame, range).opacity;
               markerScale = interpolate(frame, [range.startFrame, range.endFrame], [0, 1], CLAMP);
-            } else if (props.entranceAnimation === "fade-in") {
-              markerOpacity = fadeIn(frame, range).opacity;
-            } else if (props.entranceAnimation === "scale-pop") {
-              const p = scalePop(frame, range, 1.3);
-              markerOpacity = p.opacity;
-              markerScale = p.scale;
+            } else {
+              const anim = applyEntrance(frame, props.entranceAnimation, range, { overshootScale: 1.3 });
+              markerOpacity = anim.opacity;
+              markerScale = anim.scale;
             }
 
             return (

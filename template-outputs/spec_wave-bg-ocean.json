@@ -1,0 +1,38 @@
+{
+  "templateId": "quote-highlight",
+  "params": {
+    "quote": "The sea, once it casts its spell, holds one in its net of wonder forever.",
+    "attribution": "Jacques Cousteau",
+    "quoteColor": "#F0FFF4",
+    "attributionColor": "#67E8F9",
+    "accentColor": "#0EA5E9",
+    "quoteStyle": "italic",
+    "quoteMarkStyle": "large",
+    "background": {
+      "type": "gradient",
+      "from": "#1E3A8A",
+      "to": "#0D9488",
+      "direction": "to-bottom"
+    },
+    "entranceAnimation": "blur-reveal",
+    "duration": 6,
+    "stylePreset": "warm-organic",
+    "motionStyle": {
+      "easing": "smooth",
+      "speed": "slow",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "transition"
+    },
+    "pacingProfile": "elegant",
+    "secondaryMotion": {
+      "type": "float",
+      "intensity": "medium"
+    },
+    "decorativeTheme": "soft-glow"
+  }
+}

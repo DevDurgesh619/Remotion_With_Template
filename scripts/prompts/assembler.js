@@ -12,6 +12,7 @@ const { getAdvancedRules } = require("./advanced");
 const { getDatavizRules } = require("./dataviz");
 const { getAssetRules } = require("./assets");
 const { getTypographyRules } = require("./typography");
+const AMBIENT_RULES = require("./ambient");
 
 /**
  * Assemble a system prompt tailored to the given spec.
@@ -27,6 +28,8 @@ function assemblePrompt(specData) {
     ANIMATION_RULES,
     "",
     LAYOUT_RULES,
+    "",
+    AMBIENT_RULES,
   ];
 
   // Conditionally add advanced rules based on spec content

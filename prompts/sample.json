@@ -1,16 +1,16 @@
 [
-  
-  { "id": "p2", "prompt": "make 'dream big' appear with glowing neon effect and soft flicker" },
-  { "id": "p3", "prompt": "animate 'stay focused' with each letter dropping from top one by one" },
-    { "id": "p4", "prompt": "show 'loading...' with looping dots animation and smooth typing" },
-      { "id": "p8", "prompt": "make 'broken code' glitch randomly and flicker like error text" },
-        { "id": "p15", "prompt": "animate 'level up' with text jumping up and settling smoothly" },
-{
-    "id": "s1",
-    "prompt": "show a simple scene with a road with white strip, flowers on the ground, a bicycle moving slowly, clouds in the sky, sun shining and a plane flying across"
-  }
-
-
-
-  
+  {
+    "id":"t1",
+    "prompt":"make a 3 step process animation: upload file → edit → download… minimal UI style with boxes and arrows"
+  },
+  {
+  "id": "real_001",
+  "prompt": "create a clean instagram intro with my name and smooth animation"
+},{
+  "id": "real_002",
+  "prompt": "make a short video saying hello world with modern text animation"
+},{
+  "id": "real_003",
+  "prompt": "simple reel intro with bold text and nice background motion"
+}
 ]

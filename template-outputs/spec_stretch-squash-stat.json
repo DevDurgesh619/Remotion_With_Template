@@ -1,0 +1,44 @@
+{
+  "templateId": "stat-counter",
+  "params": {
+    "value": 50000,
+    "prefix": "",
+    "suffix": "",
+    "label": "Active Users",
+    "valueColor": "#FF3E8A",
+    "labelColor": "#00D9FF",
+    "background": {
+      "type": "gradient",
+      "from": "#FF7F50",
+      "to": "#FFD700",
+      "direction": "to-bottom-right"
+    },
+    "duration": 5,
+    "entranceAnimation": "scale-pop",
+    "valueSize": "xlarge",
+    "accentColor": "#FFD700",
+    "stylePreset": "gradient-dream",
+    "typography": {
+      "fontFamily": "clash-display",
+      "weight": "bold",
+      "letterSpacing": "normal",
+      "lineHeight": "compact"
+    },
+    "motionStyle": {
+      "easing": "elastic",
+      "speed": "medium",
+      "stagger": false,
+      "microMotion": true
+    },
+    "effects": {
+      "shadow": "soft",
+      "glow": "subtle",
+      "blur": "none"
+    },
+    "secondaryMotion": {
+      "type": "stretch-squash",
+      "intensity": "strong"
+    },
+    "decorativeTheme": "gradient-orbs"
+  }
+}

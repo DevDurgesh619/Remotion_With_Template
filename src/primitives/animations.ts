@@ -1,5 +1,5 @@
 import { interpolate } from "remotion";
-import type { PacingProfile } from "../templates/types";
+import type { AnimationPreset, PacingProfile } from "../templates/types";
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -490,6 +490,369 @@ export function microFloat(frame: number, amplitude: number = 2, period: number 
       ? interpolate(posInCycle, [0, halfPeriod], [0, amplitude], CLAMP)
       : interpolate(posInCycle, [halfPeriod, period], [amplitude, 0], CLAMP);
   return { y: raw - amplitude / 2 };
+}
+
+// ── New Secondary Motions ────────────────────────────────────────────
+
+/** Skew oscillation: oscillates skewX back and forth deterministically. */
+export function skewOscillate(
+  frame: number,
+  range: FrameRange,
+  maxDeg: number = 5,
+  period: number = 100
+): { skewX: number } {
+  if (frame < range.startFrame || frame > range.endFrame) return { skewX: 0 };
+  const elapsed = frame - range.startFrame;
+  const quarterPeriod = period / 4;
+  const posInCycle = elapsed % period;
+  let skewX: number;
+  if (posInCycle < quarterPeriod) {
+    skewX = interpolate(posInCycle, [0, quarterPeriod], [0, maxDeg], CLAMP);
+  } else if (posInCycle < quarterPeriod * 2) {
+    skewX = interpolate(posInCycle, [quarterPeriod, quarterPeriod * 2], [maxDeg, 0], CLAMP);
+  } else if (posInCycle < quarterPeriod * 3) {
+    skewX = interpolate(posInCycle, [quarterPeriod * 2, quarterPeriod * 3], [0, -maxDeg], CLAMP);
+  } else {
+    skewX = interpolate(posInCycle, [quarterPeriod * 3, period], [-maxDeg, 0], CLAMP);
+  }
+  return { skewX };
+}
+
+/** Continuous 360° rotation: steady spin, not oscillation. */
+export function continuousRotate(
+  frame: number,
+  range: FrameRange,
+  degreesPerCycle: number = 360,
+  period: number = 90
+): { rotation: number } {
+  if (frame < range.startFrame || frame > range.endFrame) return { rotation: 0 };
+  const elapsed = frame - range.startFrame;
+  return { rotation: (elapsed / period) * degreesPerCycle };
+}
+
+/** Stretch/squash: rubber hose physics oscillation preserving area. */
+export function stretchSquash(
+  frame: number,
+  range: FrameRange,
+  amplitude: number = 0.08,
+  period: number = 60
+): { scaleX: number; scaleY: number } {
+  if (frame < range.startFrame || frame > range.endFrame) return { scaleX: 1, scaleY: 1 };
+  const elapsed = frame - range.startFrame;
+  const halfPeriod = period / 2;
+  const posInCycle = elapsed % period;
+  const offset =
+    posInCycle < halfPeriod
+      ? interpolate(posInCycle, [0, halfPeriod], [-amplitude, amplitude], CLAMP)
+      : interpolate(posInCycle, [halfPeriod, period], [amplitude, -amplitude], CLAMP);
+  return { scaleX: 1 + offset, scaleY: 1 - offset * 0.6 };
+}
+
+/** Shadow dance: animated text shadow offset using two triangle waves. */
+export function shadowDance(
+  frame: number,
+  range: FrameRange,
+  maxOffset: number = 6,
+  periodX: number = 80,
+  periodY: number = 110
+): { shadowX: number; shadowY: number } {
+  if (frame < range.startFrame || frame > range.endFrame) return { shadowX: 0, shadowY: 0 };
+  const elapsed = frame - range.startFrame;
+
+  const halfX = periodX / 2;
+  const posX = elapsed % periodX;
+  const rawX = posX < halfX
+    ? interpolate(posX, [0, halfX], [0, maxOffset], CLAMP)
+    : interpolate(posX, [halfX, periodX], [maxOffset, 0], CLAMP);
+
+  const halfY = periodY / 2;
+  const posY = elapsed % periodY;
+  const rawY = posY < halfY
+    ? interpolate(posY, [0, halfY], [0, maxOffset], CLAMP)
+    : interpolate(posY, [halfY, periodY], [maxOffset, 0], CLAMP);
+
+  return { shadowX: rawX - maxOffset / 2, shadowY: rawY - maxOffset / 2 };
+}
+
+// ── Per-Character Animation Functions ────────────────────────────────
+
+/**
+ * Wave motion: sinusoidal vertical offset per character.
+ * Each char is offset by phase based on its index.
+ */
+export function waveMotion(
+  frame: number,
+  charIndex: number,
+  _totalChars: number,
+  amplitude: number = 8,
+  period: number = 60,
+  phaseGap: number = 4
+): { y: number } {
+  const elapsed = frame;
+  const phaseOffset = charIndex * phaseGap;
+  const halfPeriod = period / 2;
+  const posInCycle = (elapsed + phaseOffset) % period;
+  const raw = posInCycle < halfPeriod
+    ? interpolate(posInCycle, [0, halfPeriod], [0, amplitude], CLAMP)
+    : interpolate(posInCycle, [halfPeriod, period], [amplitude, 0], CLAMP);
+  return { y: raw - amplitude / 2 };
+}
+
+/**
+ * Glitch offset: deterministic jitter + RGB text shadow split.
+ * Returns transform offset and textShadow string.
+ */
+export function glitchEffect(
+  frame: number,
+  charIndex: number,
+  totalChars: number,
+  intensity: number = 1
+): { x: number; y: number; textShadow: string } {
+  // Deterministic jitter every 8 frames for a subset of characters
+  const jitterCycle = 8;
+  const jitterFrame = Math.floor(frame / jitterCycle);
+  const hash = (jitterFrame * 7 + charIndex * 13) % 37;
+  const isGlitching = hash < (intensity > 0.5 ? 12 : 6);
+
+  const x = isGlitching ? ((hash % 5) - 2) * intensity * 2 : 0;
+  const y = isGlitching ? ((hash % 3) - 1) * intensity : 0;
+
+  // RGB split shadow
+  const splitAmount = isGlitching ? 2 * intensity : 0.5 * intensity;
+  const textShadow = `${splitAmount}px 0 rgba(255,0,0,0.7), ${-splitAmount}px 0 rgba(0,255,255,0.7)`;
+
+  return { x, y, textShadow };
+}
+
+/**
+ * 3D rotation entrance: rotates from rotated state to normal.
+ */
+export function rotate3dIn(
+  frame: number,
+  range: FrameRange,
+  axis: "X" | "Y" | "XY" = "Y"
+): { rotateX: number; rotateY: number; opacity: number } {
+  const dur = range.endFrame - range.startFrame;
+  const midPoint = range.startFrame + Math.round(dur * 0.7);
+
+  const opacity = interpolate(
+    frame,
+    [range.startFrame, range.startFrame + Math.round(dur * 0.3)],
+    [0, 1],
+    CLAMP
+  );
+
+  let rotateX = 0;
+  let rotateY = 0;
+
+  if (axis === "X" || axis === "XY") {
+    rotateX = interpolate(
+      frame,
+      [range.startFrame, midPoint, range.endFrame],
+      [-90, 5, 0],
+      CLAMP
+    );
+  }
+  if (axis === "Y" || axis === "XY") {
+    rotateY = interpolate(
+      frame,
+      [range.startFrame, midPoint, range.endFrame],
+      [90, -5, 0],
+      CLAMP
+    );
+  }
+
+  return { rotateX, rotateY, opacity };
+}
+
+// ── New Entry Animations ─────────────────────────────────────────────
+
+/** Spin in: rotate 360°→0° while fading in and scaling 0.5→1. */
+export function spinIn(
+  frame: number,
+  range: FrameRange
+): { rotation: number; opacity: number; scale: number } {
+  const dur = range.endFrame - range.startFrame;
+  const midPoint = range.startFrame + Math.round(dur * 0.6);
+
+  const rotation = interpolate(
+    frame,
+    [range.startFrame, midPoint, range.endFrame],
+    [360, -15, 0],
+    CLAMP
+  );
+  const scale = interpolate(
+    frame,
+    [range.startFrame, midPoint, range.endFrame],
+    [0.5, 1.05, 1],
+    CLAMP
+  );
+  const opacity = interpolate(
+    frame,
+    [range.startFrame, range.startFrame + Math.round(dur * 0.3)],
+    [0, 1],
+    CLAMP
+  );
+  return { rotation, opacity, scale };
+}
+
+/** Drop in: fall from above with bounce settle. */
+export function dropIn(
+  frame: number,
+  range: FrameRange,
+  heightPx: number = 200
+): { y: number; opacity: number } {
+  const dur = range.endFrame - range.startFrame;
+  const impact = range.startFrame + Math.round(dur * 0.4);
+  const bounce = range.startFrame + Math.round(dur * 0.65);
+  const settle = range.startFrame + Math.round(dur * 0.85);
+
+  const y = interpolate(
+    frame,
+    [range.startFrame, impact, bounce, settle, range.endFrame],
+    [-heightPx, 5, -12, 3, 0],
+    CLAMP
+  );
+  const opacity = interpolate(
+    frame,
+    [range.startFrame, range.startFrame + Math.round(dur * 0.15)],
+    [0, 1],
+    CLAMP
+  );
+  return { y, opacity };
+}
+
+// ── Shared Entrance Dispatcher ──────────────────────────────────────────
+
+export interface EntranceResult {
+  opacity: number;
+  scale: number;
+  y: number;
+  x: number;
+  blur: number;
+  rotation: number;
+  chars: number;
+  clipPath?: string;
+}
+
+/**
+ * Universal entrance animation dispatcher.
+ * Replaces per-template switch statements with a single shared function.
+ */
+export function applyEntrance(
+  frame: number,
+  preset: AnimationPreset | string,
+  range: FrameRange,
+  opts?: {
+    offsetY?: number;
+    offsetX?: number;
+    blurAmount?: number;
+    textLength?: number;
+    overshootScale?: number;
+    clipDirection?: ClipDirection;
+    springBounces?: number;
+    dropHeight?: number;
+  }
+): EntranceResult {
+  const textLength = opts?.textLength ?? 0;
+  const result: EntranceResult = {
+    opacity: 1, scale: 1, y: 0, x: 0, blur: 0, rotation: 0, chars: textLength,
+  };
+
+  switch (preset) {
+    case "fade-in": {
+      const f = fadeIn(frame, range);
+      result.opacity = f.opacity;
+      result.scale = f.scale;
+      break;
+    }
+    case "slide-up": {
+      const s = slideUp(frame, range, opts?.offsetY ?? 40);
+      result.opacity = s.opacity;
+      result.y = s.y;
+      break;
+    }
+    case "slide-down": {
+      const s = slideDown(frame, range, opts?.offsetY ?? 40);
+      result.opacity = s.opacity;
+      result.y = s.y;
+      break;
+    }
+    case "slide-left": {
+      const s = slideLeft(frame, range, opts?.offsetX ?? 60);
+      result.opacity = s.opacity;
+      result.x = s.x;
+      break;
+    }
+    case "slide-right": {
+      const s = slideRight(frame, range, opts?.offsetX ?? 60);
+      result.opacity = s.opacity;
+      result.x = s.x;
+      break;
+    }
+    case "scale-pop": {
+      const p = scalePop(frame, range, opts?.overshootScale);
+      result.opacity = p.opacity;
+      result.scale = p.scale;
+      break;
+    }
+    case "blur-reveal": {
+      const b = blurReveal(frame, range, opts?.blurAmount ?? 12);
+      result.opacity = b.opacity;
+      result.scale = b.scale;
+      result.blur = b.blur;
+      break;
+    }
+    case "typewriter": {
+      result.chars = typewriter(frame, range, textLength);
+      result.opacity = 1;
+      break;
+    }
+    case "clip-reveal": {
+      const c = clipReveal(frame, range, opts?.clipDirection ?? "left");
+      result.clipPath = c.clipPath;
+      break;
+    }
+    case "spring": {
+      const s = springIn(frame, range, opts?.springBounces ?? 2);
+      result.opacity = s.opacity;
+      result.scale = s.scale;
+      break;
+    }
+    case "spin-in": {
+      const s = spinIn(frame, range);
+      result.opacity = s.opacity;
+      result.scale = s.scale;
+      result.rotation = s.rotation;
+      break;
+    }
+    case "drop-in": {
+      const d = dropIn(frame, range, opts?.dropHeight ?? 200);
+      result.opacity = d.opacity;
+      result.y = d.y;
+      break;
+    }
+    case "3d-rotate": {
+      const r = rotate3dIn(frame, range);
+      result.opacity = r.opacity;
+      // Store rotateX/Y as x/y for simplicity — templates apply as perspective transforms
+      result.rotation = r.rotateY;
+      result.y = r.rotateX; // template uses this as rotateX when preset is "3d-rotate"
+      break;
+    }
+    case "camera-drift": {
+      const c = cameraDrift(frame, range);
+      result.x = c.x;
+      result.y = c.y;
+      result.scale = c.scale;
+      break;
+    }
+    case "none":
+    default:
+      break;
+  }
+
+  return result;
 }
 
 // ── Choreography ────────────────────────────────────────────────────────
